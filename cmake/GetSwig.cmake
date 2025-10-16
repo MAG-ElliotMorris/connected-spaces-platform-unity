@@ -12,7 +12,6 @@ endif()
 # Expects the release format from the custom Magnopus IL2CPP fork.
 set(SWIG_RELEASE_URL  "https://github.com/MAG-ElliotMorris/swig-il2cpp-directors/releases/download/0.0.1/swig-windows-cmake.zip")
 
-set(_DEPS_DIR "${CMAKE_BINARY_DIR}/_deps")
 set(_SWIG_ZIP      "${_DEPS_DIR}/swig-il2cpp-directors.zip")
 set(_SWIG_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/_deps/swig-il2cpp-directors")
 
