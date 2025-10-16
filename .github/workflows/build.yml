@@ -1,0 +1,44 @@
+# .github/workflows/build.yml
+name: CMake Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        #os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [windows-latest]
+        build_type: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
+
+      # - name: Test
+      #  run: ctest --test-dir build --output-on-failure --config ${{ matrix.build_type }}
+
+      # Uncomment to upload build artifacts (e.g., binaries, logs)
+      # - name: Upload artifacts
+      #   if: ${{ matrix.build_type == 'Release' }}
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ runner.os }}-${{ matrix.build_type }}-artifacts
+      #     path: |
+      #       build/**
