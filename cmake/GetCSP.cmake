@@ -5,7 +5,7 @@ include_guard(GLOBAL)
 
 # If we've set a CSP_ROOT_DIR ourselves, don't bother downloading, just use it
 if(NOT DEFINED CSP_ROOT_DIR)
-    set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE PATH "Root directory for CSP. If unset, CSP is automatically downloaded")
+  set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE PATH "Root directory for CSP. If unset, CSP is automatically downloaded")
 
   # This is necessary to find the latest CSP release.
   # This dependency could be removed if CSP omitted the build number from its release naming.
@@ -54,12 +54,17 @@ elseif()
 endif()
 
 # Export a target
-set(_CSP_INCLUDE_DIR,  ${CSP_ROOT_DIR}/include)
-set(_CSP_LIB_DIR, ${CSP_ROOT_DIR}/lib)
+set(_CSP_INCLUDE_DIR "${CSP_ROOT_DIR}/include")
+set(_CSP_LIB_DIR "${CSP_ROOT_DIR}/lib")
 
-add_library(_CSP INTERFACE)
+message(STATUS "CSP_ROOT_DIR='${CSP_ROOT_DIR}'")
+message(STATUS "_CSP_INCLUDE_DIR='${_CSP_INCLUDE_DIR}'")
+
+# Todo: Static on ios I expect
+add_library(_CSP SHARED IMPORTED)
 set_target_properties(_CSP PROPERTIES
-    IMPORTED_LOCATION "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.lib"
+    IMPORTED_IMPLIB "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.lib"
+    IMPORTED_LOCATION "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.dll"
     INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
 )
 
