@@ -40,14 +40,6 @@ jobs:
         run: dotnet pack -c ${{ matrix.build_type }}
         working-directory: ./ConnectedSpacesPlatform_Unity_Nuget
 
-      # - name: Test
-      #  run: ctest --test-dir build --output-on-failure --config ${{ matrix.build_type }}
-
-      # Uncomment to upload build artifacts (e.g., binaries, logs)
-      # - name: Upload artifacts
-      #   if: ${{ matrix.build_type == 'Release' }}
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ runner.os }}-${{ matrix.build_type }}-artifacts
-      #     path: |
-      #       build/**
+      - name: Test
+        run: dotnet test -c ${{ matrix.build_type }}
+        working-directory: ./InteropTestsXUnit
