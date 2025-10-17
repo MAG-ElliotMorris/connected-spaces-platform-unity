@@ -7,6 +7,12 @@ include(FetchContent)
 include(cmake/GetSwig.cmake)
 include(cmake/GetCSP.cmake)
 
+# Global configuration. This should have RelWithDebugInfo in it also, 
+# but we don't have CSP libs for it yet. Impressed that CMake forced
+# me to declare this. If you add it here, Cmake will tell you at least
+# some of the places you need to update as errors.
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
+
 # ---------------- SWIG Codegen ----------------
 # Interface (.i) files
 set(ROOT_I_DIR "${CMAKE_SOURCE_DIR}/interface" CACHE FILEPATH "Root include directory for all .i files.")
@@ -62,3 +68,5 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
+
+include(cmake/PackageInstall.cmake)

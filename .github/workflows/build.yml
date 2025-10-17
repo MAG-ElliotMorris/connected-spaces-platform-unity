@@ -33,6 +33,9 @@ jobs:
         env:
           CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
 
+      - name: Install
+        run: cmake --install build --config ${{ matrix.build_type }}
+
       # - name: Test
       #  run: ctest --test-dir build --output-on-failure --config ${{ matrix.build_type }}
 

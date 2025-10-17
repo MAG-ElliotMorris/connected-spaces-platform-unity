@@ -61,10 +61,12 @@ message(STATUS "CSP_ROOT_DIR='${CSP_ROOT_DIR}'")
 message(STATUS "_CSP_INCLUDE_DIR='${_CSP_INCLUDE_DIR}'")
 
 # Todo: Static on ios I expect
-add_library(_CSP SHARED IMPORTED)
+add_library(_CSP SHARED IMPORTED GLOBAL)
 set_target_properties(_CSP PROPERTIES
-    IMPORTED_IMPLIB "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.lib"
-    IMPORTED_LOCATION "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.dll"
+    IMPORTED_IMPLIB_RELEASE "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.lib"
+    IMPORTED_IMPLIB_DEBUG "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.lib"
+    IMPORTED_LOCATION_RELEASE "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.dll"
+    IMPORTED_LOCATION_DEBUG "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.dll"
     INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
 )
 
