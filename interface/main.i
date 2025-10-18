@@ -9,3 +9,4 @@
 
 /* Declare the api */
 %include "Systems/SystemBase.i"
+%include "Systems/Maintenance/Maintenance.i"

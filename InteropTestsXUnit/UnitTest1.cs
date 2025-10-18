@@ -1,6 +1,6 @@
 namespace InteropTestsXUnit;
 
-using csp.systems;
+using Csp;
 
 public class UnitTest1
 {
@@ -8,8 +8,7 @@ public class UnitTest1
     public void Test1()
     {
         //This is a temporary test just to assert linking works, it's meaningless.
-        SystemBase systemBase = new SystemBase(0, false);
-        // Calling anything will fail because SystemBase is a base type and cant be instantiated
-        Assert.True(true);
+        MaintenanceInfo info = new MaintenanceInfo();
+        Assert.False(info.IsInsideWindow());
     }
 }

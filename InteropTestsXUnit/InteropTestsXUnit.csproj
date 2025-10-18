@@ -15,12 +15,8 @@
 		<Using Include="Xunit" />
 	</ItemGroup>
 
-
 	<ItemGroup>
-		<ProjectReference Include="..\ConnectedSpacesPlatform_Unity_Nuget\ConnectedSpacesPlatform_Unity_Nuget.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
+		<PackageReference Include="ConnectedSpacesPlatform_Unity_Nuget" Version="1.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
 		<PackageReference Include="xunit.v3" Version="3.1.0" />
 		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />

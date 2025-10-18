@@ -18,6 +18,8 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 set(ROOT_I_DIR "${CMAKE_SOURCE_DIR}/interface" CACHE FILEPATH "Root include directory for all .i files.")
 set(ROOT_I_FILE "${ROOT_I_DIR}/main.i" CACHE FILEPATH "Main SWIG .i entry point, should be in ROOT_I_DIR")
 
+set(CSHARP_CSP_NAMESPACE "Csp" CACHE STRING "Namespace that generated Csharp should be placed under")
+
 # Generated code output
 set(_GEN_CPP_DIR "${CMAKE_BINARY_DIR}/generated/cpp")
 set(_GEN_CS_DIR  "${CMAKE_BINARY_DIR}/generated/cs")
@@ -50,6 +52,7 @@ add_custom_command(
           -dllimport ${_WRAPPER_MODULE_NAME}
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
+          -namespace ${CSHARP_CSP_NAMESPACE}
           -v # Still could be verboser ... There's other options if you need them
           "${ROOT_I_FILE}"
   DEPENDS "${ROOT_I_FILE}"
