@@ -5,14 +5,14 @@ include_guard(GLOBAL)
 set(_SWIG_ZIP      "${_DEPS_DIR}/swig-il2cpp-directors.zip")
 set(_SWIG_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/_deps/swig-il2cpp-directors")
 
-if (WIN32)
-    set(SWIG_EXE "${_SWIG_BINARY_DIR}/bin/swig.exe" CACHE FILEPATH "Path to SWIG executable, if not set, automatically fetched.")
+if (NOT SWIG_EXE)
+  if (WIN32)
+      set(SWIG_EXE "${_SWIG_BINARY_DIR}/bin/swig.exe" CACHE FILEPATH "Path to SWIG executable, if not set, automatically fetched.")
+  else()
+      set(SWIG_EXE "${_SWIG_BINARY_DIR}/bin/swig" CACHE FILEPATH "Path to SWIG executable, if not set, automatically fetched.")
+  endif()
 else()
-    set(SWIG_EXE "${_SWIG_BINARY_DIR}/bin/swig" CACHE FILEPATH "Path to SWIG executable, if not set, automatically fetched.")
-endif()
-
-# If SWIG_EXE has been set by the user, don't bother with all this download malarkey.
-if(SWIG_EXE)
+  # If SWIG_EXE has been set by the user, don't bother with all this download malarkey.
   message(STATUS "Using user-provided SWIG: ${SWIG_EXE}")
   return()
 endif()
