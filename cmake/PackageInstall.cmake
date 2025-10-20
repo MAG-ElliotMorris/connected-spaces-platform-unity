@@ -20,11 +20,13 @@ install(
 )
 
 # Install debug symbols of the wrapper binary in addition
-install(
-  FILES $<TARGET_PDB_FILE:${_WRAPPER_MODULE_NAME}>
-  DESTINATION "${INSTALL_DIR}/bin"
-  CONFIGURATIONS Debug RelWithDebInfo #RelWithDebInfo doesn't exist, but it'll want to be here when it does.
-)
+if(MSVC)
+  install(
+    FILES $<TARGET_PDB_FILE:${_WRAPPER_MODULE_NAME}>
+    DESTINATION "${INSTALL_DIR}/bin"
+    CONFIGURATIONS Debug RelWithDebInfo #RelWithDebInfo doesn't exist, but it'll want to be here when it does.
+  )
+endif()
 
 # /cs generated dir, the files you actually work with in Csharp.
 install(
@@ -50,4 +52,13 @@ if(MSVC)
   install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.pdb"
           DESTINATION "${INSTALL_DIR}/bin"
           CONFIGURATIONS RelWithDebInfo)
+elseif(APPLE)
+    # This is redundant I think, CSP could build DWARF with debug symbols embedded, dSYMs are not the norm.
+    install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib.dSYM"
+            DESTINATION "${INSTALL_DIR}/bin"
+            CONFIGURATIONS Debug)
+          
+    install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform.dylib.dSYM"
+            DESTINATION "${INSTALL_DIR}/bin"
+            CONFIGURATIONS RelWithDebInfo)
 endif()

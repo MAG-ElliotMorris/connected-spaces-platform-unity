@@ -4,6 +4,7 @@ project(MyProj)
 set(_DEPS_DIR "${CMAKE_BINARY_DIR}/_deps")
 
 include(FetchContent)
+include(cmake/Options.cmake)
 include(cmake/GetSwig.cmake)
 include(cmake/GetCSP.cmake)
 
@@ -40,6 +41,11 @@ add_custom_target(CleanGen ALL
     COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CS_DIR}"
 )
 
+# When we install swig on unix platforms, it expects to be in /share, but because we're a custom cut we isolate to dependencies
+# Tell swig where its internal configs are (adjacent more or less)
+set(_INTERNAL_SWG_SEARCH_PATH_GLOBAL "${_SWIG_BINARY_DIR}/share/swig/4.4.0")
+set(_INTERNAL_SWG_SEARCH_PATH_CSHARP "${_SWIG_BINARY_DIR}/share/swig/4.4.0/csharp")
+
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
@@ -47,6 +53,8 @@ add_custom_command(
   COMMAND "${SWIG_EXE}"
           -I${_CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
           -I${ROOT_I_DIR} # So we can %include our own .i files.
+          -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # So we can %include our own .i files.
+          -I${_INTERNAL_SWG_SEARCH_PATH_CSHARP} # So we can %include our own .i files.
           -c++ -csharp
           -module ${_WRAPPER_MODULE_NAME}
           -dllimport ${_WRAPPER_MODULE_NAME}
