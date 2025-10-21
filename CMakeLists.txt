@@ -35,12 +35,6 @@ message(STATUS "_WRAPPER_MODULE_NAME='${_WRAPPER_MODULE_NAME}'")
 message(STATUS "_CPP_WRAPPER_OUT='${_CPP_WRAPPER_OUT}'")
 message(STATUS "ROOT_I_FILE='${ROOT_I_FILE}'")
 
-#It's annoying, SWIG does not remove the generated dir even if it should be changing things in it.
-add_custom_target(CleanGen ALL
-    COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CPP_DIR}"
-    COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CS_DIR}"
-)
-
 # When we install swig on unix platforms, it expects to be in /share, but because we're a custom cut we isolate to dependencies
 # Tell swig where its internal configs are (adjacent more or less)
 set(_INTERNAL_SWG_SEARCH_PATH_GLOBAL "${_SWIG_BINARY_DIR}/share/swig/4.4.0")
@@ -49,6 +43,8 @@ set(_INTERNAL_SWG_SEARCH_PATH_CSHARP "${_SWIG_BINARY_DIR}/share/swig/4.4.0/cshar
 # Setup SWIG invocation
 add_custom_command(
   OUTPUT "${_CPP_WRAPPER_OUT}"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CPP_DIR}" # Clean up first
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "${_GEN_CS_DIR}"
   COMMAND "${CMAKE_COMMAND}" -E make_directory "${_GEN_CPP_DIR}" "${_GEN_CS_DIR}"
   COMMAND "${SWIG_EXE}"
           -I${_CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
