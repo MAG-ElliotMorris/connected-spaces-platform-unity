@@ -38,6 +38,5 @@ jobs:
 
       - name: Test
         run: |
-          dotnet restore ./InteropTestsXUnit.csproj --source ../ConnectedSpacesPlatform_Unity_Nuget/bin/${{matrix.build_type}} --source https://api.nuget.org/v3/index.json
           dotnet test -c ${{ matrix.build_type }}
         working-directory: ./InteropTestsXUnit
