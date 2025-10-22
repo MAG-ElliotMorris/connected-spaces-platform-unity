@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<RootNamespace>InteropTestsXUnit</RootNamespace>
 		<TargetFramework>net8.0</TargetFramework>
+		 <ExternalRoot>..\install</ExternalRoot>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,11 +16,24 @@
 		<Using Include="Xunit" />
 	</ItemGroup>
 
+	 <ItemGroup>
+    	<Compile Include="$(ExternalRoot)\include\**\*.cs"
+                 Link="ExternalInclude\%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
 	<ItemGroup>
-		<PackageReference Include="ConnectedSpacesPlatform_Unity_Nuget" Version="1.0.0" />
+		<None Include="$(ExternalRoot)/bin/*ConnectedSpacesPlatform*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="$(ExternalRoot)/lib/*ConnectedSpacesPlatform_Unity_SWIG*.*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
 		<PackageReference Include="xunit.v3" Version="3.1.0" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+		<PackageReference Include="xunit.runner.visualstudio" Version="3.1.5"/>
 	</ItemGroup>
 
 </Project>

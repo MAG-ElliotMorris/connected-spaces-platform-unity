@@ -36,10 +36,6 @@ jobs:
       - name: Install
         run: cmake --install build --config ${{ matrix.build_type }}
 
-      - name: Package (Nuget)
-        run: dotnet pack -c ${{ matrix.build_type }}
-        working-directory: ./ConnectedSpacesPlatform_Unity_Nuget
-
       - name: Test
         run: |
           dotnet restore ./InteropTestsXUnit.csproj --source ../ConnectedSpacesPlatform_Unity_Nuget/bin/${{matrix.build_type}} --source https://api.nuget.org/v3/index.json
