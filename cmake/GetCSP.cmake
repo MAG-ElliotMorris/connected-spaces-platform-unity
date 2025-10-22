@@ -88,13 +88,31 @@ else()
   message(STATUS "Using CSP_ROOT_DIR=${MYLIB_ROOT}, CSP download skipped.")
 endif()
 
-# Export a target
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(_CSP_NAME "libConnectedSpacesPlatform_D.dylib")
+else()
+    set(_CSP_NAME "libConnectedSpacesPlatform.dylib")
+endif()
 set(_CSP_INCLUDE_DIR "${CSP_ROOT_DIR}/include")
 set(_CSP_LIB_DIR "${CSP_ROOT_DIR}/lib")
+set(_CSP_BINARY_PATH  "${_CSP_LIB_DIR}/${_CSP_NAME}")
 
 message(STATUS "CSP_ROOT_DIR='${CSP_ROOT_DIR}'")
 message(STATUS "_CSP_INCLUDE_DIR='${_CSP_INCLUDE_DIR}'")
 
+
+if (APPLE)
+    # Patch the install_name so it can be loaded from anywhere.
+    # I think CSP should probably do this upstream, rather than insisting on /usr/local
+    # WARNING. This invalidates codesigning, so we resign
+    add_custom_target(_PATCH_CSP_INSTALL_NAME
+        COMMAND install_name_tool -id "@rpath/${_CSP_NAME}" "${_CSP_BINARY_PATH}"
+        # Ad-hoc sign (the - after the s)
+        COMMAND codesign -s - --timestamp=none --force "${_CSP_BINARY_PATH}"
+        VERBATIM)
+endif()
+
+# Export a target
 if(BUILD_SHARED_LIBS)
     add_library(_CSP SHARED IMPORTED GLOBAL)
 else()
@@ -122,6 +140,10 @@ elseif(APPLE)
             INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
         )
     endif()
+
+    # Patch the install name on apple platforms, so the SWIG lib can load the CSP lib from adjacent to itself
+    add_dependencies(_CSP _PATCH_CSP_INSTALL_NAME)
+
 else()
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set_target_properties(_CSP PROPERTIES

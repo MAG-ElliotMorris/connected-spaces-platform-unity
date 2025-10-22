@@ -53,7 +53,7 @@ if(MSVC)
           DESTINATION "${INSTALL_DIR}/bin"
           CONFIGURATIONS RelWithDebInfo)
 elseif(APPLE)
-    # This is redundant I think, CSP could build DWARF with debug symbols embedded, dSYMs are not the norm.
+    # This is redundant I think, CSP could build DWARF with debug symbols embedded, I don't think dSYMs are the norm?
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"
             CONFIGURATIONS Debug)

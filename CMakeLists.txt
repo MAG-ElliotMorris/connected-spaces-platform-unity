@@ -76,4 +76,13 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
 
+# Ensure the wrapper can resolve @rpath by looking in its own folder at runtime.
+# This makes the dependent lookup land on the sibling dylib.
+set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
+    MACOSX_RPATH ON
+    INSTALL_RPATH "@loader_path"
+    BUILD_RPATH   "@loader_path"
+    BUILD_WITH_INSTALL_RPATH TRUE
+)
+
 include(cmake/PackageInstall.cmake)
