@@ -28,7 +28,7 @@ elseif(APPLE)
     endif()
 elseif(ANDROID)
     if(BUILD_SHARED_LIBS)
-        set(_CSP_RELEASE_ARTIFACT_PATTERN "*Android*..zip")
+        set(_CSP_RELEASE_ARTIFACT_PATTERN "*Android*.zip")
     else()
          message(FATAL_ERROR "Cannot build for android statically, CSP does not provide these binaries.")
     endif()
@@ -101,7 +101,7 @@ message(STATUS "CSP_ROOT_DIR='${CSP_ROOT_DIR}'")
 message(STATUS "_CSP_INCLUDE_DIR='${_CSP_INCLUDE_DIR}'")
 
 
-if (APPLE)
+if (APPLE AND BUILD_SHARED_LIBS)
     # Patch the install_name so it can be loaded from anywhere.
     # I think CSP should probably do this upstream, rather than insisting on /usr/local
     # WARNING. This invalidates codesigning, so we resign
@@ -128,23 +128,50 @@ if(WIN32)
         INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
     )
 elseif(APPLE)
-    # It's not normal to do _D on unix platforms, CSP should change this. CMake dosen't understand very well
+    # We're braching on 2 things here (ios is static, macos shared), 
+    # so build the name to avoid massive branching later
+    set(_LIB_SUFFIX "")
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set_target_properties(_CSP PROPERTIES
-            IMPORTED_LOCATION "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib"
-            INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
-        )
-    else()
-        set_target_properties(_CSP PROPERTIES
-            IMPORTED_LOCATION "${_CSP_LIB_DIR}/libConnectedSpacesPlatform.dylib"
-            INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
-        )
+        set(_LIB_SUFFIX "_D")
     endif()
 
-    # Patch the install name on apple platforms, so the SWIG lib can load the CSP lib from adjacent to itself
-    add_dependencies(_CSP _PATCH_CSP_INSTALL_NAME)
+    if(BUILD_SHARED_LIBS)
+        set(_LIB_EXT ".dylib")
+    else()
+        set(_LIB_EXT ".a")
+    endif()
 
+    set(CSP_APPLE_LIBRARY_NAME "libConnectedSpacesPlatform${_LIB_SUFFIX}${_LIB_EXT}")
+
+    # It's not normal to do _D on unix platforms, CSP should change this. CMake dosen't understand very well (Can't use the LOCATION_DEBUG option, have to branch above)
+    set_target_properties(_CSP PROPERTIES
+        IMPORTED_LOCATION "${_CSP_LIB_DIR}/${CSP_APPLE_LIBRARY_NAME}"
+        INTERFACE_INCLUDE_DIRECTORIES "${_CSP_INCLUDE_DIR}"
+    )
+
+    if (NOT BUILD_SHARED_LIBS)
+        # Static OpenSSL. CSP needs these. (crypto, ssl)
+        add_library(_OpenSSL_crypto STATIC IMPORTED GLOBAL)
+        set_target_properties(_OpenSSL_crypto PROPERTIES
+            IMPORTED_LOCATION "${_CSP_LIB_DIR}/libcrypto.a"
+        )
+
+        add_library(_OpenSSL_ssl STATIC IMPORTED GLOBAL)
+        set_target_properties(_OpenSSL_ssl PROPERTIES
+            IMPORTED_LOCATION "${_CSP_LIB_DIR}/libssl.a"
+            INTERFACE_LINK_LIBRARIES _OpenSSL_crypto
+        )
+
+        # If _CSP itself needs OpenSSL, express that once here:
+        target_link_libraries(_CSP INTERFACE _OpenSSL_ssl)
+    endif()
+
+    if (BUILD_SHARED_LIBS)
+        # Patch the install name on apple platforms, so the SWIG lib can load the CSP lib from adjacent to itself
+        add_dependencies(_CSP _PATCH_CSP_INSTALL_NAME)
+    endif()
 else()
+    # Unix, in theory
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set_target_properties(_CSP PROPERTIES
             IMPORTED_LOCATION "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.so"

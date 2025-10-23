@@ -36,15 +36,17 @@ install(
 
 # The actual underlying CSP library, needs to sit alongside the bindings.
 # Including this makes this a complete artifact.
-install(
-  FILES $<TARGET_FILE:_CSP>
-  DESTINATION ${INSTALL_DIR}/bin
-)
+if (BUILD_SHARED_LIBS)
+  install(
+    FILES $<TARGET_FILE:_CSP>
+    DESTINATION ${INSTALL_DIR}/bin
+  )
+endif()
 
 # Finally the underlying CSP's debug symbols on windows platforms (no pdb equivalent on unix).
 # TARGET_PDB_FILE is not available for imported targets (why though?)
 # So do it more explicitly.
-if(MSVC)
+if(MSVC AND BUILD_SHARED_LIBS)
   install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform_D.pdb"
           DESTINATION "${INSTALL_DIR}/bin"
           CONFIGURATIONS Debug)
@@ -52,7 +54,7 @@ if(MSVC)
   install(FILES "${_CSP_LIB_DIR}/ConnectedSpacesPlatform.pdb"
           DESTINATION "${INSTALL_DIR}/bin"
           CONFIGURATIONS RelWithDebInfo)
-elseif(APPLE)
+elseif(APPLE AND BUILD_SHARED_LIBS)
     # This is redundant I think, CSP could build DWARF with debug symbols embedded, I don't think dSYMs are the norm?
     install(DIRECTORY "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.dylib.dSYM"
             DESTINATION "${INSTALL_DIR}/bin"

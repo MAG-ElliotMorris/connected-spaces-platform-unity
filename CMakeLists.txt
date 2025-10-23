@@ -65,7 +65,11 @@ add_custom_command(
 )
 
 # ---------------- Build SWIG Output ----------------
-add_library(${_WRAPPER_MODULE_NAME} SHARED "${_CPP_WRAPPER_OUT}")
+if (BUILD_SHARED_LIBS)
+  add_library(${_WRAPPER_MODULE_NAME} SHARED "${_CPP_WRAPPER_OUT}")
+else()
+  add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
+endif()
 set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
   CXX_STANDARD 17
   CXX_STANDARD_REQUIRED YES
@@ -84,5 +88,14 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
     BUILD_RPATH   "@loader_path"
     BUILD_WITH_INSTALL_RPATH TRUE
 )
+
+# When building for ios, it will complain, but we don't need to sign (I think...) because we're just a static library
+# (Dynamic would need to be signed ... is this why we don't support dynamic on ios?)
+set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
+    XCODE_ATTRIBUTE_CODE_SIGNING_ALLOWED "NO"
+    XCODE_ATTRIBUTE_CODE_SIGNING_REQUIRED "NO"
+    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ""
+)
+
 
 include(cmake/PackageInstall.cmake)
