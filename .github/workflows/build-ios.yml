@@ -1,4 +1,3 @@
-# .github/workflows/build.yml
 name: CMake Build iOS
 
 on:

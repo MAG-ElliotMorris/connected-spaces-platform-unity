@@ -1,0 +1,40 @@
+name: CMake Build Android
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest] # You could also run this on macos, up to you if you want to make the cost tradeoff (10x) for making sure dev environments keep working.
+        build_type: [Debug, Release]
+
+    runs-on: ${{ matrix.os }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1 # VS Developer Cmd Prompt. We need this for NMake Makefiles (Ninja would also work)
+
+      - name: Configure
+        run: cmake -G "NMake Makefiles" -DCMAKE_TOOLCHAIN_FILE="$env:ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake" -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -S . -B build
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.build_type }}
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: ${{ runner.job_count }}
+
+      - name: Install
+        run: cmake --install build --config ${{ matrix.build_type }}
+
+      # No testing on android. This is probably possible using an emulator.
+      # Like for iOS, if you figure this out, I'll buy you a beer.
