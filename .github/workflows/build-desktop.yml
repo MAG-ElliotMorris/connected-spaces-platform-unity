@@ -38,3 +38,10 @@ jobs:
         run: |
           dotnet test -c ${{ matrix.build_type }}
         working-directory: ./InteropTestsXUnit
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}-${{ matrix.build_type }}
+          path: install/**
+          if-no-files-found: error

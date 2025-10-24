@@ -38,3 +38,10 @@ jobs:
 
       # No testing on android. This is probably possible using an emulator.
       # Like for iOS, if you figure this out, I'll buy you a beer.
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ matrix.os }}-${{ matrix.build_type }}
+          path: install/**
+          if-no-files-found: error

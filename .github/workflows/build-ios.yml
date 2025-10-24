@@ -36,3 +36,10 @@ jobs:
 
       # No test step, can't test iOS (especially without the simulator arch)
       # If you figure out how to do this easily, i'll buy you a beer.
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-${{ matrix.os }}-${{ matrix.build_type }}
+          path: install/**
+          if-no-files-found: error
