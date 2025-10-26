@@ -17,7 +17,7 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 # ---------------- SWIG Codegen ----------------
 # Interface (.i) files
 set(ROOT_I_DIR "${CMAKE_SOURCE_DIR}/interface" CACHE FILEPATH "Root include directory for all .i files.")
-set(ROOT_I_FILE "${ROOT_I_DIR}/main.i" CACHE FILEPATH "Main SWIG .i entry point, should be in ROOT_I_DIR")
+set(_ROOT_I_FILE "${ROOT_I_DIR}/main.i")
 
 set(CSHARP_CSP_NAMESPACE "Csp" CACHE STRING "Namespace that generated Csharp should be placed under")
 
@@ -33,7 +33,7 @@ message(STATUS "_GEN_CPP_DIR='${_GEN_CPP_DIR}'")
 message(STATUS "_GEN_CS_DIR='${_GEN_CS_DIR}'")
 message(STATUS "_WRAPPER_MODULE_NAME='${_WRAPPER_MODULE_NAME}'")
 message(STATUS "_CPP_WRAPPER_OUT='${_CPP_WRAPPER_OUT}'")
-message(STATUS "ROOT_I_FILE='${ROOT_I_FILE}'")
+message(STATUS "_ROOT_I_FILE='${_ROOT_I_FILE}'")
 
 # When we install swig on unix platforms, it expects to be in /share, but because we're a custom cut we isolate to dependencies
 # Tell swig where its internal configs are (adjacent more or less)
@@ -58,8 +58,8 @@ add_custom_command(
           -o "${_CPP_WRAPPER_OUT}"
           -namespace ${CSHARP_CSP_NAMESPACE}
           -v # Still could be verboser ... There's other options if you need them
-          "${ROOT_I_FILE}"
-  DEPENDS "${ROOT_I_FILE}"
+          "${_ROOT_I_FILE}"
+  DEPENDS "${_ROOT_I_FILE}"
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" 
   VERBATIM
 )

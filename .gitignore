@@ -11,6 +11,8 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 /[Ii]nstall/
+CMakeFiles/
+CMakeCache.txt
 *.log
 *.vscode
 

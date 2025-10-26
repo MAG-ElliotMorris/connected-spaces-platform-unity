@@ -38,7 +38,7 @@ endif()
 
 # If we've set a CSP_ROOT_DIR ourselves, don't bother downloading, just use it
 if(NOT DEFINED CSP_ROOT_DIR)
-  set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform")
+  set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE Path "Path to Connected Spaces Platform root")
 
   # This is necessary to find the latest CSP release.
   # This dependency could be removed if CSP omitted the build number from its release naming.
@@ -171,7 +171,7 @@ elseif(APPLE)
         add_dependencies(_CSP _PATCH_CSP_INSTALL_NAME)
     endif()
 else()
-    # Unix, in theory
+    # Unix, but for us right now, actually android
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         set_target_properties(_CSP PROPERTIES
             IMPORTED_LOCATION "${_CSP_LIB_DIR}/libConnectedSpacesPlatform_D.so"
