@@ -9,7 +9,7 @@ cmake --build build --config Debug
 cmake --install build --config Debug
 ```
 
-Building on Android/iOS is a little more involved, you can see specific invocations in the actions files. (Desktop, Android, iOS)
+Building on Android/iOS is a little more involved, you can see specific invocations in the actions files. ([Desktop](https://github.com/MAG-ElliotMorris/connected-spaces-platform-unity/blob/main/.github/workflows/build-desktop.yml), [Android](https://github.com/MAG-ElliotMorris/connected-spaces-platform-unity/blob/main/.github/workflows/build-android.yml), [iOS](https://github.com/MAG-ElliotMorris/connected-spaces-platform-unity/blob/main/.github/workflows/build-ios.yml))
 
 This should produce you an `install` directory with `bin`, `lib` and `include`subdirectories (dependent on platform).
 
