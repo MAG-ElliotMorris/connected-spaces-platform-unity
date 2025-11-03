@@ -26,7 +26,7 @@ set(_GEN_CPP_DIR "${CMAKE_BINARY_DIR}/generated/cpp")
 set(_GEN_CS_DIR  "${CMAKE_BINARY_DIR}/generated/cs")
 
 # SWIG module/DLL name. This is the actual library you'd link against the use the API (whist _this_ library links against CSP proper)
-set(_WRAPPER_MODULE_NAME "ConnectedSpacesPlatform_Unity_SWIG")
+set(_WRAPPER_MODULE_NAME "ConnectedSpacesPlatformDotNet")
 set(_CPP_WRAPPER_OUT "${_GEN_CPP_DIR}/${_WRAPPER_MODULE_NAME}_wrap.cxx")
 
 message(STATUS "_GEN_CPP_DIR='${_GEN_CPP_DIR}'")

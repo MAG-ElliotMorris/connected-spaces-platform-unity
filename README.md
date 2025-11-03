@@ -16,7 +16,7 @@ This should produce you an `install` directory with `bin`, `lib` and `include`su
 ### Installing to Unity
 To use the install output in unity, copy the files like so:
 - The contents of the `include` directory -> `Assets/Csp/Runtime/`
-- Copy both binary files (`ConnectedSpacesPlatform` and `ConnectedSpacesPlatform_Unity_SWIG`) to the platform specific folder under `Assets/Plugins`
+- Copy both binary files (`ConnectedSpacesPlatform` and `ConnectedSpacesPlatformDotNet`) to the platform specific folder under `Assets/Plugins`
     - Windows: `Assets/Plugins/x86_64`
     - iOS : `Assets/Plugins/iOS`
     - Android: `Assets/Plugins/Android/arm64-v8a`

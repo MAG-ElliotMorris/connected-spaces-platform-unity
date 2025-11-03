@@ -25,7 +25,7 @@
 		<None Include="$(ExternalRoot)/bin/*ConnectedSpacesPlatform*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="$(ExternalRoot)/lib/*ConnectedSpacesPlatform_Unity_SWIG*.*">
+		<None Include="$(ExternalRoot)/lib/*ConnectedSpacesPlatformDotNet*.*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

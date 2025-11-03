@@ -38,7 +38,7 @@ endif()
 
 # If we've set a CSP_ROOT_DIR ourselves, don't bother downloading, just use it
 if(NOT DEFINED CSP_ROOT_DIR)
-  set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE Path "Path to Connected Spaces Platform root")
+  set(CSP_ROOT_DIR "${_DEPS_DIR}/connected-spaces-platform" CACHE PATH "Path to Connected Spaces Platform root")
 
   # This is necessary to find the latest CSP release.
   # This dependency could be removed if CSP omitted the build number from its release naming.
@@ -85,7 +85,7 @@ if(NOT DEFINED CSP_ROOT_DIR)
   )
 
 else()
-  message(STATUS "Using CSP_ROOT_DIR=${MYLIB_ROOT}, CSP download skipped.")
+  message(STATUS "Using CSP_ROOT_DIR=${CSP_ROOT_DIR}, CSP download skipped.")
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
