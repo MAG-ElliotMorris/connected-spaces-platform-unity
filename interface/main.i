@@ -15,15 +15,14 @@
 %include "swigutils/typemaps/Csp_String.i"
 
 
-%include "swigUtils/CallbackAdapters.i"
+%include "swigutils/CallbackAdapters.i"
 %include "swigutils/AsyncAdapters.i"
 
 
 /* Declare the api */
-%include "Systems/SystemBase.i"
-%include "Systems/Maintenance/Maintenance.i"
-%include "Common/Systems/Log/LogSystem.i"
-
+%include "CSP/Systems/SystemBase.i"
+%include "CSP/Common/Systems/Log/LogSystem.i"
+%include "CSP/Common/Systems/Log/LogLevels.i"
 
 
 
