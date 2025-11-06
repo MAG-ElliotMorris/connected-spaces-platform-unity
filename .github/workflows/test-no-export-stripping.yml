@@ -1,0 +1,30 @@
+name: Test No Export Stripping
+
+on:
+  push:
+    paths:
+      - 'Utilities/StripNoExport/**'
+  pull_request:
+    paths:
+      - 'Utilities/StripNoExport/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install pytest
+
+      - name: Run tests for StripNoExport
+        working-directory: Utilities/StripNoExport
+        run: python3 -m pytest -v
