@@ -23,7 +23,7 @@ class String;
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return $null;
    }
-   $1.assign($input); %}
+   $1 = $input; %}
 %typemap(out) String %{ $result = SWIG_csharp_string_callback($1.c_str()); %}
 
 %typemap(directorout, canthrow=1) String 
@@ -31,7 +31,7 @@ class String;
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return $null;
    }
-   $result.assign($input); %}
+   $result = $input; %}
 
 %typemap(directorin) String %{ $input = $1.c_str(); %}
 

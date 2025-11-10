@@ -19,12 +19,22 @@
 %include "swigutils/AsyncAdapters.i"
 
 
+
 /* Declare the api */
+
+/* CSP/ */
+%include "CSP/CSPFoundation.i"
+
+/* CSP/Common/Interfaces */
+
+
+/* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
+
 %include "CSP/Common/Systems/Log/LogSystem.i"
 %include "CSP/Common/Systems/Log/LogLevels.i"
 
-
+/* CSP/Multiplayer */
 
 
 

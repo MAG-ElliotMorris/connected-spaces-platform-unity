@@ -1,16 +1,12 @@
 namespace InteropTestsXUnit;
 
 using Csp;
-using Microsoft.Diagnostics.NETCore.Client;
-using System.Diagnostics;
-using System.IO;
-using System.Threading.Tasks;
 
 public class CallbackTests
 {
 
     [Fact]
-    public async Task Callbacks()
+    public void Callbacks()
     {
         /* Test that our callback adaptations function
          * We test 2 here, because we have a static buffer under the hood (swig IL2CPP adaptation), so 
