@@ -116,8 +116,7 @@ def StripNoExportDeclarations(text: str) -> str:
     # Now we've got all the lines that are CSP_NO_EXPORT declarations, remove them
     return RemoveLines(text, linesToZap)
 
-# Actually not that important. Obviously we #define CSP_NO_EXPORT et al somewhere,
-# avoid blasting those away, even though it probably wouldn't matter to SWIG.
+# Stuff we don't care about. Anything that's auto-translated might go here if it becomes a problem
 filenames_to_ignore = {"CSPCommon.h", "String.h", "Optional.h"}
 
 def main():

@@ -83,9 +83,26 @@ if(NOT DEFINED CSP_ROOT_DIR)
       COMMAND ${CMAKE_COMMAND} -E tar xzf "${CSP_ROOT_DIR}/include/include.zip"
       WORKING_DIRECTORY ${CSP_ROOT_DIR}/include
   )
-
 else()
   message(STATUS "Using CSP_ROOT_DIR=${CSP_ROOT_DIR}, CSP download skipped.")
+endif()
+
+if(TRIM_CSP_NO_EXPORTS)
+    # Trim the CSP_NO_EXPORT stuff off so SWIG dosen't try to generate it
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+    message("Trimming CSP include dir of NO_EXPORT sections")
+
+    # Move the old include dir aside, since we want the trimmed dir to be called that.
+    file(RENAME "${CSP_ROOT_DIR}/include" "${CSP_ROOT_DIR}/include_orig")
+
+    # Perform the strip using the utility python script.
+    execute_process(
+        COMMAND "${Python3_EXECUTABLE}"
+                "${CMAKE_SOURCE_DIR}/Utilities/StripNoExport/StripNoExport.py"
+                "${CSP_ROOT_DIR}/include_orig"
+                "${CSP_ROOT_DIR}/include"
+        COMMAND_ERROR_IS_FATAL ANY)
 endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
