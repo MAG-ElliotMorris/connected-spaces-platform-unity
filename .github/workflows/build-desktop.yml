@@ -23,6 +23,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Unity
+        uses: kuler90/setup-unity@v1.1.0
+
       - name: Configure
         run: cmake -S . -B build
 
