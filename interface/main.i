@@ -19,20 +19,29 @@
 %include "swigutils/AsyncAdapters.i"
 
 
+/* CSP non-exported symbols */
+%ignore ToJson;
+
 
 /* Declare the api */
 
 /* CSP/ */
 %include "CSP/CSPFoundation.i"
 
+/* CSP/Common */
+%include "CSP/Common/CancellationToken.i"
+%include "CSP/Common/LoginState.i"
+
+
 /* CSP/Common/Interfaces */
 
+/* CSP/Common/Systems/Log */
+%include "CSP/Common/Systems/Log/LogSystem.i"
+%include "CSP/Common/Systems/Log/LogLevels.i"
 
 /* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
 
-%include "CSP/Common/Systems/Log/LogSystem.i"
-%include "CSP/Common/Systems/Log/LogLevels.i"
 
 /* CSP/Multiplayer */
 
