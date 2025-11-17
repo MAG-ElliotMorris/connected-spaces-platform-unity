@@ -117,7 +117,8 @@ def StripNoExportDeclarations(text: str) -> str:
     return RemoveLines(text, linesToZap)
 
 # Stuff we don't care about. Anything that's auto-translated might go here if it becomes a problem
-filenames_to_ignore = {"CSPCommon.h", "String.h", "Optional.h"}
+# Actually important for container types as we need the .begin() stuff which is not exported.
+filenames_to_ignore = {"CSPCommon.h", "String.h", "Optional.h", "List.h", "Map.h"}
 
 def main():
     parser = argparse.ArgumentParser(
