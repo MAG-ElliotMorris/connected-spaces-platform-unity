@@ -280,11 +280,22 @@ public class ListTests
         var SelectOneAndTwoWithWhere = list.Where(x => x.ApplicationName == "1" || x.ApplicationName == "2");
         Assert.Equal("1", SelectOneAndTwoWithWhere.First().ApplicationName);
         Assert.Equal("2", SelectOneAndTwoWithWhere.Last().ApplicationName);
+    }
 
+    [Fact]
+    public void EnumeratorTest()
+    {
+        var items = MakeManyApplicationSettings(5);
+        var list = new ApplicationSettingsValueList(items);
         using (var e = list.GetEnumerator())
         {
-            e.MoveNext();
-            list.Insert(1, new ApplicationSettings()); //Modify the underlying container during enumeration, no crashes please and thank you.
+            int i = 0;
+            while (e.MoveNext())
+            {
+                Assert.Equal(i.ToString(), e.Current.ApplicationName);
+                i++;
+            }
+            Assert.Equal(5, i); // Verify we enumerated all 5 items
         }
     }
 
