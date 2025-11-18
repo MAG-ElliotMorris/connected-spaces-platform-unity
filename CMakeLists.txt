@@ -99,3 +99,4 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 
 include(cmake/PackageInstall.cmake)
+include(cmake/CopyToUnity.cmake)
