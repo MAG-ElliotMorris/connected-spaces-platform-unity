@@ -13,6 +13,7 @@
 %include "stdint.i"
 %include "enums.swg"
 %include "swigutils/typemaps/Csp_String.i"
+%include "swigutils/typemaps/Csp_List.i"
 
 
 %include "swigutils/CallbackAdapters.i"
@@ -31,6 +32,7 @@
 /* CSP/Common */
 %include "CSP/Common/CancellationToken.i"
 %include "CSP/Common/LoginState.i"
+%include "CSP/Common/Settings.i"
 
 
 /* CSP/Common/Interfaces */
@@ -42,9 +44,11 @@
 /* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
 
-
 /* CSP/Multiplayer */
 
+
+/* Generics declarations */
+%template(ApplicationSettingsValueList) csp::common::List<csp::common::ApplicationSettings>;
 
 
 

@@ -27,7 +27,9 @@
 namespace csp::common
 {
 
-
+CSP_START_IGNORE
+template <typename T> class Array;
+CSP_END_IGNORE
 
 const auto LIST_DEFAULT_SIZE = 4;
 
@@ -99,9 +101,50 @@ public:
         }
     }
 
+    CSP_NO_EXPORT List(List<T>&& Other)
+        : CurrentSize(0)
+        , MaximumSize(0)
+        , ObjectArray(nullptr)
+    {
+        if (Other.CurrentSize == 0)
+        {
+            AllocList(LIST_DEFAULT_SIZE);
+
+            return;
+        }
+
+        CurrentSize = Other.CurrentSize;
+        MaximumSize = Other.MaximumSize;
+        ObjectArray = Other.ObjectArray;
+
+        Other.ObjectArray = nullptr;
+    }
 
     /// @brief Constructs a list from an initializer_list.
     /// @param List std::initializer_list : Elements to construct the list from
+    CSP_NO_EXPORT List(std::initializer_list<T> List)
+        : CurrentSize(0)
+        , MaximumSize(0)
+        , ObjectArray(nullptr)
+    {
+        if (List.size() == 0)
+        {
+            AllocList(LIST_DEFAULT_SIZE);
+
+            return;
+        }
+
+        auto Size = next_pow2(List.size());
+        AllocList(Size);
+        CurrentSize = List.size();
+
+        for (size_t i = 0; i < CurrentSize; ++i)
+        {
+            T* ObjectPtr = &ObjectArray[i];
+            new (ObjectPtr) T;
+            ObjectArray[i] = *(List.begin() + i);
+        }
+    }
 
     /// @brief Destructor.
     /// Frees list memory.
@@ -109,12 +152,20 @@ public:
 
     /// @brief Returns a pointer to the start of the list.
     /// @return T*
+    CSP_NO_EXPORT T* Data() { return CurrentSize > 0 ? &ObjectArray[0] : nullptr; }
 
     /// @brief Returns a const pointer to the start of the list.
     /// @return const T*
+    CSP_NO_EXPORT const T* Data() const { return CurrentSize > 0 ? &ObjectArray[0] : nullptr; }
 
     // Iterators
+    CSP_NO_EXPORT T* begin() { return Data(); }
+    CSP_NO_EXPORT const T* begin() const { return Data(); }
+    CSP_NO_EXPORT const T* cbegin() const { return Data(); }
 
+    CSP_NO_EXPORT T* end() { return Data() + Size(); }
+    CSP_NO_EXPORT const T* end() const { return Data() + Size(); }
+    CSP_NO_EXPORT const T* cend() const { return Data() + Size(); }
 
     /// @brief Copy assignment.
     /// @param Other const List<T>&
@@ -185,6 +236,19 @@ public:
 
     /// @brief Appends an element to the end of the list.
     /// @param Item T&&
+    CSP_NO_EXPORT void Append(T&& Item)
+    {
+        if (CurrentSize == MaximumSize)
+        {
+            auto Size = next_pow2(MaximumSize + 1);
+            ReallocList(Size);
+        }
+
+        // Instantiate element first to allow move assignment
+        T* ObjectPtr = &ObjectArray[CurrentSize];
+        new (ObjectPtr) T;
+        ObjectArray[CurrentSize++] = std::move(Item);
+    }
 
     /// @brief Appends an element at the given index of the list.
     /// @param Index size_t
@@ -201,7 +265,7 @@ public:
         std::memmove(ObjectArray + (Index + 1), ObjectArray + Index, sizeof(T) * After);
         ++CurrentSize;
 
-        T* ObjectPtr = &ObjectArray[0];
+        T* ObjectPtr = &ObjectArray[Index];
         new (ObjectPtr) T;
         ObjectArray[Index] = Item;
     }
@@ -274,6 +338,17 @@ public:
 
     /// @brief Returns a copy of this List as an Array
     /// @return Array<T>
+    CSP_NO_EXPORT Array<T> ToArray() const
+    {
+        Array<T> Result(CurrentSize);
+
+        for (size_t i = 0; i < CurrentSize; ++i)
+        {
+            Result[i] = ObjectArray[i];
+        }
+
+        return std::move(Result);
+    }
 
 private:
     /// @brief Allocates memory for the list.
