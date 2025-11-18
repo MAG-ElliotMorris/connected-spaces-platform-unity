@@ -49,8 +49,8 @@ add_custom_command(
   COMMAND "${SWIG_EXE}"
           -I${_CSP_INCLUDE_DIR} # So we can #include CSP's .h files.
           -I${ROOT_I_DIR} # So we can %include our own .i files.
-          -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # So we can %include our own .i files.
-          -I${_INTERNAL_SWG_SEARCH_PATH_CSHARP} # So we can %include our own .i files.
+          -I${_INTERNAL_SWG_SEARCH_PATH_CSHARP} # C# search path for SWIG .i lib files. (This should be first as some are named the same)
+          -I${_INTERNAL_SWG_SEARCH_PATH_GLOBAL} # Global seach path for SWIG .i lib files.
           -c++ -csharp
           -module ${_WRAPPER_MODULE_NAME}
           -dllimport ${_WRAPPER_MODULE_NAME}
