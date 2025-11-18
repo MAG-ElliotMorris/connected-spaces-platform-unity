@@ -13,6 +13,7 @@
 %include "stdint.i"
 %include "enums.swg"
 %include "swigutils/typemaps/Csp_String.i"
+%include "swigutils/typemaps/Csp_Map.i"
 %include "swigutils/typemaps/Csp_List.i"
 %include "swigutils/typemaps/Csp_Array.i"
 
@@ -50,6 +51,8 @@
 
 /* CSP/Multiplayer */
 
+/* Generics declarations */
+%template(StringDict) csp::common::Map<csp::common::String, csp::common::String>;
 
 /* Generics declarations */
 // Note. This "ValueList/ValueArray" standard is sort of temporary during the migration,
@@ -57,5 +60,4 @@
 // and decide on a strategy.
 %template(ApplicationSettingsValueList) csp::common::List<csp::common::ApplicationSettings>;
 %template(SpaceUserRoleValueArray) csp::common::Array<csp::systems::SpaceUserRole>;
-
 
