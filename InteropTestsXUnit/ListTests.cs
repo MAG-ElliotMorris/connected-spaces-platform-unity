@@ -117,7 +117,7 @@ public class ListTests
          * If you declare a List<StructType>, then you'll get disconnected value gets and sets,
          * but List<ClassType> is "connected", you get reference semantics.
          * It's not like this in Cpp, the declaration of your types have no bearing on whether they
-         * are handled in a value/reference manner, that's do do with how you declare you container.
+         * are handled in a value/reference manner, that's to do with how you declare you container.
          * For example:
          *  - std::vector<Type> is a value container
          *  - std::vector<Type*> is a pointer/reference etc container.
