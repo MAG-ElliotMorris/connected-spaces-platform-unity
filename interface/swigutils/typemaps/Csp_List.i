@@ -2,6 +2,11 @@
  * THE BELOW IS BASED ON SWIGS ON std_vector.i TYPEMAP
  * It shouldn't exist long term, it is a shim until we can expose standard
  * types properly in the interface.
+ * Quick overview of changes:
+ * - Namespaces changed from std->csp::common
+ * - "Vector" type name changed to "List"
+ * - Removed the typedeffing as we don't have those in csp::common::List, just use the `T` values directly.
+ * - Updated the interfaces in the declared type to match the functions available on List
  *
  * SWIG typemaps for csp::common::List<T>
  * C# implementation
@@ -193,6 +198,10 @@
 
   public:
 
+    /* 
+     * These methods changed to match necessary methods in csp::common::List 
+     * They are referenced in the below implementations to shim to the C# interface.
+     */
     List();
     List(const List &other);
 
