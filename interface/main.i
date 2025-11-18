@@ -13,6 +13,7 @@
 %include "stdint.i"
 %include "enums.swg"
 %include "swigutils/typemaps/Csp_String.i"
+%include "swigutils/typemaps/Csp_Map.i"
 %include "swigutils/typemaps/Csp_List.i"
 
 
@@ -46,9 +47,9 @@
 
 /* CSP/Multiplayer */
 
+/* Generics declarations */
+%template(StringDict) csp::common::Map<csp::common::String, csp::common::String>;
 
 /* Generics declarations */
 %template(ApplicationSettingsValueList) csp::common::List<csp::common::ApplicationSettings>;
-
-
 
