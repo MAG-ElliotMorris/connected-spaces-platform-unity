@@ -61,3 +61,4 @@
 %template(ApplicationSettingsValueList) csp::common::List<csp::common::ApplicationSettings>;
 %template(SpaceUserRoleValueArray) csp::common::Array<csp::systems::SpaceUserRole>;
 
+
