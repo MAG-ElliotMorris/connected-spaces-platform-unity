@@ -62,4 +62,34 @@ public class PropertiesTests
         Assert.Equal(0, loginState.DefaultApplicationSettings.Count);
     }
 
+    [Fact]
+    public void MapProperty()
+    {
+        //SettingsCollection.Settings is an IDictionary<string, string>
+        Csp.SettingsCollection settings = new Csp.SettingsCollection();
+
+        // Crashes! (System.AccessViolationException: 'Attempted to read or write protected memory. This is often an indication that other memory is corrupt.')
+        // Anything we can do about this to promote to a friendlier exception? Probably a general case error for setting non-nullable things to null.
+        // settings.Settings = null;
+
+        Assert.Empty(settings.Settings);
+
+        // Add some elements
+        settings.Settings.Add("key1", "value1");
+        settings.Settings.Add("key2", "value2");
+
+        Assert.Equal(2, settings.Settings.Count);
+
+        //Set a brand new dicts.
+        Csp.StringDict newDict = new Csp.StringDict();
+        newDict.Add("keyNew", "valueNew");
+        settings.Settings = newDict;
+
+        Assert.Single(settings.Settings);
+        Assert.Equal("keyNew", settings.Settings.First().Key);
+        Assert.Equal("valueNew", settings.Settings.First().Value);
+
+        settings.Settings.Clear();
+        Assert.Empty(settings.Settings);
+    }
 }
