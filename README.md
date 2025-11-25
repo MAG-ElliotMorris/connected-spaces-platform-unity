@@ -37,7 +37,9 @@ To use the install output in unity, copy the files like so:
 | `CSHARP_CSP_NAMESPACE`| String | What to call the namespace generated Csp code is namespaced under. Defaults to "Csp" |
 | `ROOT_I_DIR`| Path | Directory where the root `.i` SWIG interface file can be found. Defaults to `./interface`. The root `.i` file should be called `main.i` |
 | `CSP_ROOT_DIR` | Path | Path to the root directory of a CSP release. Include directories are used in SWIG `.i` files, and provided binaries are linked against. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/connected-spaces-platform` |
-| `SWIG_EXE`| Path | Path to the directory containing the swig executable that is used to generate .cpp and .cs code. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/swig-il2cpp-directors/bin/swig` |
+| `SWIG_EXE`| Path | Path to the directory containing the swig executable that is used to generate .cpp and .cs code. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/swig-il2cpp-directors/bin/swig`                                   |
+| `CSP_LIB_UNITY_DIR`| Path | Path to Unity CSP plugin directory where the CSP generated code and libs from SWIG will be copied to, if desired.                                                                                                                                               |
+| `CSP_ASMDEF_PATH`| Path | Path to ConnectedSpacesPlatform Unity .asmdef file, which will be used in Unity to handle the dependency over the CSP code.                                                                                                                                     |
 
 ### Optional Cmake Variables
 | Var | Type | Description |
