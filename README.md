@@ -38,3 +38,9 @@ To use the install output in unity, copy the files like so:
 | `ROOT_I_DIR`| Path | Directory where the root `.i` SWIG interface file can be found. Defaults to `./interface`. The root `.i` file should be called `main.i` |
 | `CSP_ROOT_DIR` | Path | Path to the root directory of a CSP release. Include directories are used in SWIG `.i` files, and provided binaries are linked against. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/connected-spaces-platform` |
 | `SWIG_EXE`| Path | Path to the directory containing the swig executable that is used to generate .cpp and .cs code. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/swig-il2cpp-directors/bin/swig` |
+
+### Optional Cmake Variables
+| Var | Type | Description |
+|----------|----------|----------|
+| 'TRIM_CSP_NO_EXPORTS' | Boolean | Whether to trim the NO_EXPORT sections of CSP headers when consuming a release |
+| 'INIT_UNITY_TEST_PROJECT' | Boolean | Whether to initialize the Unity test project with the latest generated classes and libraries for Unity integration tests |
