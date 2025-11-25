@@ -1,0 +1,32 @@
+﻿// ---------------------------------------------
+// Copyright (c) Magnopus LLC. All Rights Reserved.
+// ---------------------------------------------
+
+using NUnit.Framework;
+
+using LoginState = Csp.LoginState;
+using ELoginState = Csp.ELoginState;
+
+namespace Magnopus.Csp.Unity.Tests
+{
+    public class UserSchemaTests
+    {
+        [Test]
+        public void CreateLoginState()
+        {
+            const string userId = "12345";
+            const string deviceId = "67890";
+            const ELoginState state = ELoginState.LoggedIn;
+            
+            using var loginState = new LoginState();
+            loginState.UserId = userId;
+            loginState.DeviceId = deviceId;
+            loginState.State = state;
+
+            Assert.NotNull(loginState);
+            Assert.IsTrue(loginState.UserId == userId);
+            Assert.IsTrue(loginState.DeviceId == deviceId);
+            Assert.IsTrue(loginState.State == state);
+        }
+    }
+}
