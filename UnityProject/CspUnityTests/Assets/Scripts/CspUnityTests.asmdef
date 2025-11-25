@@ -1,0 +1,18 @@
+{
+    "name": "CspUnityTests",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d8d5e9696295d5f489fa1770d11b8fc0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "WindowsStandalone64"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
