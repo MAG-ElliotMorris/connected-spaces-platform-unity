@@ -1,6 +1,14 @@
-# Unity paths
-set(_CSP_LIB_UNITY_DIR  "${CMAKE_BINARY_DIR}/../UnityProject/CspUnityTests/Assets/Plugins/CSP")
-set(_CSP_ASMDEF_PATH "${CMAKE_BINARY_DIR}/../UnityProject/ConnectedSpacesPlatform.Unity.Core.asmdef")
+# Path to the folder of the Unity project where the generated CSP code and libs will be copied to.
+set(_CSP_LIB_UNITY_DIR
+    "${CMAKE_BINARY_DIR}/../UnityProject/CspUnityTests/Assets/Plugins/CSP"
+    CACHE PATH "Path to Unity CSP plugin directory"
+)
+
+# The asmdef file that will be used to establish the build settings for the generated CSP code and libs
+set(_CSP_ASMDEF_PATH
+    "${CMAKE_BINARY_DIR}/../UnityProject/ConnectedSpacesPlatform.Unity.Core.asmdef"
+    CACHE FILEPATH "Path to ConnectedSpacesPlatform Unity .asmdef file"
+)
 
 message(STATUS "_CSP_LIB_UNITY_DIR='${_CSP_LIB_UNITY_DIR}'")
 message(STATUS "_CSP_ASMDEF_PATH='${_CSP_ASMDEF_PATH}'")
