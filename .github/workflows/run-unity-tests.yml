@@ -14,6 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest]
+        build_type: [Debug, Release]
         projectPath:
           - UnityProject/CspUnityTests
         testMode:
