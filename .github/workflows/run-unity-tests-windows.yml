@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest]
         build_type: [Debug, Release]
         projectPath:
           - UnityProject/CspUnityTests
@@ -85,61 +85,3 @@ jobs:
         with:
           name: windows-${{ matrix.testMode }}-coverage
           path: ${{ steps.windows_tests.outputs.coveragePath }}
-            
-      # -----------------------------------------------------------------
-      # MACOS SECTION (Native Unity CLI test runner) - Install Unity Mac
-      # -----------------------------------------------------------------
-      
-      # Install Unity Hub
-      - name: Install Unity Hub
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install --cask unity-hub
-          unity-hub --version
-          
-      # Install Unity Editor via Hub
-      - name: Install Unity Editor
-        if: matrix.os == 'macos-latest'
-        run: |
-          unity-hub install \
-            --version $UNITY_VERSION \
-            --changeset $UNITY_CHANGESET \
-            --childModules
-
-      # Activate Unity license
-      - name: Activate Unity
-        if: matrix.os == 'macos-latest'
-        run: |
-          unity-hub --headless \
-            activate \
-            --username "${{ secrets.UNITY_EMAIL }}" \
-            --password "${{ secrets.UNITY_PASSWORD }}" \
-            --serial   "${{ secrets.UNITY_LICENSE }}"
-
-      - name: Run Unity Tests on macOS
-        if: matrix.os == 'macos-latest'
-        run: |
-          UNITY="/Applications/Unity/Hub/Editor/${UNITY_VERSION}/Unity.app/Contents/MacOS/Unity"
-          "$UNITY" \
-            -projectPath "${{ matrix.projectPath }}" \
-            -runTests \
-            -testPlatform "${{ matrix.testMode }}" \
-            -logFile "macos-unity.log" \
-            -testResults "macos-tests.xml" \
-            -enableCodeCoverage \
-            -coverageResultsPath "Coverage" \
-            -coverageOptions "generateHtmlReport;generateAdditionalMetrics"
-
-      - name: Upload macOS Test Results
-        if: matrix.os == 'macos-latest' && always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-${{ matrix.testMode }}-results
-          path: macos-tests.xml
-
-      - name: Upload macOS Coverage Results
-        if: matrix.os == 'macos-latest' && always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-${{ matrix.testMode }}-coverage
-          path: Coverage
