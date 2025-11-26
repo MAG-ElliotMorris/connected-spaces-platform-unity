@@ -8,7 +8,7 @@ on:
 
 jobs:
   unity-tests:
-    name: Test in ${{ matrix.testMode }}
+    name: Test in ${{ matrix.testMode }} for ${{ matrix.projectPath }} on ${{ matrix.os }} [${{ matrix.build_type }}]
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
