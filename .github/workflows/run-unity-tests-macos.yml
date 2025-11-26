@@ -52,32 +52,27 @@ jobs:
       # -----------------------------------------------------------------
       # MACOS SECTION (Native Unity CLI test runner) - Install Unity Mac
       # -----------------------------------------------------------------
-      
-      # Install Unity Hub
-      - name: Install Unity Hub
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install --cask unity-hub
-          unity-hub --version
-      
-      # Install Unity Editor via Hub
-      - name: Install Unity Editor
-        if: matrix.os == 'macos-latest'
-        run: |
-          unity-hub install \
-            --version $UNITY_VERSION \
-            --changeset $UNITY_CHANGESET \
-            --childModules
 
-      # Activate Unity license
-      - name: Activate Unity
+      - name: Download Unity Editor (macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          unity-hub --headless \
-            activate \
-            --username "${{ secrets.UNITY_EMAIL }}" \
-            --password "${{ secrets.UNITY_PASSWORD }}" \
-            --serial   "${{ secrets.UNITY_LICENSE }}"
+          echo "Downloading Unity $UNITY_VERSION ($UNITY_CHANGESET)"
+          curl -o Unity.pkg "https://download.unity3d.com/download_unity/$UNITY_CHANGESET/MacEditorInstaller/Unity.pkg"
+
+      - name: Install Unity Editor (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          sudo installer -pkg Unity.pkg -target /
+
+      - name: Activate Unity License (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          UNITY_APP="/Applications/Unity/Unity.app/Contents/MacOS/Unity"
+          "$UNITY_APP" -quit -batchmode \
+            -logFile - \
+            -serial "${{ secrets.UNITY_LICENSE }}" \
+            -username "${{ secrets.UNITY_EMAIL }}" \
+            -password "${{ secrets.UNITY_PASSWORD }}"
 
       - name: Run Unity Tests on macOS
         if: matrix.os == 'macos-latest'
