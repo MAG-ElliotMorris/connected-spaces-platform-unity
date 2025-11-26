@@ -100,8 +100,8 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 include(cmake/PackageInstall.cmake)
 
-# If desired, initialize automatically the Unity test project with latest generated code and libs
-if(INIT_UNITY_TEST_PROJECT)
-  message(STATUS "\nInitializing Unity project with latest generated C# code and libraries...")
+# If desired, automatically copy the generated code and libs into the Unity test project.
+if(COPY_OUTPUT_TO_UNITY_TEST_PROJECT)
+  message(STATUS "\nStarting the copy of latest generated C# code and libraries to the Unity test project...")
   include(cmake/CopyToUnity.cmake)
 endif()
