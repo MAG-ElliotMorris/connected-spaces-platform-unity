@@ -22,6 +22,8 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       UNITY_VERSION: 6000.0.58f2
+      # Changeset from https://unity.com/releases/editor/whats-new/6000.0.58f2#installs
+      UNITY_CHANGESET: 92dee566b325
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -47,9 +49,13 @@ jobs:
           restore-keys: |
             Library-
             
-      - name: Run Unity Tests
+      # -----------------------------------------------------------------
+      # WINDOWS SECTION (GameCI Test Runner) - No need to install Unity
+      # -----------------------------------------------------------------
+      - name: Run Unity Tests on Windows
+        if: matrix.os == 'windows-latest'
         uses: game-ci/unity-test-runner@v4
-        id: tests
+        id: windows_tests
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
@@ -58,22 +64,82 @@ jobs:
           projectPath: ${{ matrix.projectPath }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
+          checkName: Windows Test Results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          checkName: ${{ matrix.testMode }} Test Results
-          coverageOptions: 'generateAdditionalMetrics;generateHtmlReport;generateBadgeReport;assemblyFilters:+my.assembly.*'
-          
-      - name: Upload Test and Coverage Artifacts
+          coverageOptions: >
+            generateAdditionalMetrics;
+            generateHtmlReport;
+            generateBadgeReport;
+            assemblyFilters:+my.assembly.*
+
+      - name: Upload Windows Artifacts
+        if: matrix.os == 'windows-latest' && always()
         uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: Test results for ${{ matrix.testMode }}
-          path: ${{ steps.tests.outputs.artifactsPath }}
-          if-no-files-found: error
-          
-      - name: Upload Coverage Results
+          name: windows-${{ matrix.testMode }}-results
+          path: ${{ steps.windows_tests.outputs.artifactsPath }}
+
+      - name: Upload Windows Coverage
+        if: matrix.os == 'windows-latest' && always()
         uses: actions/upload-artifact@v4
-        if: always()
         with:
-          name: Coverage results for ${{ matrix.testMode }}
-          path: ${{ steps.tests.outputs.coveragePath }}
-          if-no-files-found: error
+          name: windows-${{ matrix.testMode }}-coverage
+          path: ${{ steps.windows_tests.outputs.coveragePath }}
+            
+      # -----------------------------------------------------------------
+      # MACOS SECTION (Native Unity CLI test runner) - Install Unity Mac
+      # -----------------------------------------------------------------
+      
+      # Install Unity Hub
+      - name: Install Unity Hub
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install --cask unity-hub
+          unity-hub --version
+          
+      # Install Unity Editor via Hub
+      - name: Install Unity Editor
+        if: matrix.os == 'macos-latest'
+        run: |
+          unity-hub install \
+            --version $UNITY_VERSION \
+            --changeset $UNITY_CHANGESET \
+            --childModules
+
+      # Activate Unity license
+      - name: Activate Unity
+        if: matrix.os == 'macos-latest'
+        run: |
+          unity-hub --headless \
+            activate \
+            --username "${{ secrets.UNITY_EMAIL }}" \
+            --password "${{ secrets.UNITY_PASSWORD }}" \
+            --serial   "${{ secrets.UNITY_LICENSE }}"
+
+      - name: Run Unity Tests on macOS
+        if: matrix.os == 'macos-latest'
+        run: |
+          UNITY="/Applications/Unity/Hub/Editor/${UNITY_VERSION}/Unity.app/Contents/MacOS/Unity"
+          "$UNITY" \
+            -projectPath "${{ matrix.projectPath }}" \
+            -runTests \
+            -testPlatform "${{ matrix.testMode }}" \
+            -logFile "macos-unity.log" \
+            -testResults "macos-tests.xml" \
+            -enableCodeCoverage \
+            -coverageResultsPath "Coverage" \
+            -coverageOptions "generateHtmlReport;generateAdditionalMetrics"
+
+      - name: Upload macOS Test Results
+        if: matrix.os == 'macos-latest' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.testMode }}-results
+          path: macos-tests.xml
+
+      - name: Upload macOS Coverage Results
+        if: matrix.os == 'macos-latest' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ matrix.testMode }}-coverage
+          path: Coverage
