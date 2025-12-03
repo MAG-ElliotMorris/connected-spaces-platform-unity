@@ -91,9 +91,14 @@ install(CODE "
     file(COPY \"${INSTALL_DIR}/include/\" DESTINATION \"${UNITY_CSP_ROOT}/include\")
 
     # Copy platform-specific native library and binaries
-    message(\"Copying native library and binaries for Unity platform...\")
-    file(COPY \"${INSTALL_DIR}/bin/\" DESTINATION \"${UNITY_PLATFORM_DIR}\")
-    file(COPY \"${INSTALL_DIR}/lib/\" DESTINATION \"${UNITY_PLATFORM_DIR}\")
+    if(EXISTS \"${INSTALL_DIR}/bin\")
+        message(\"Copying binaries for Unity platform...\")
+        file(COPY \"${INSTALL_DIR}/bin/\" DESTINATION \"${UNITY_PLATFORM_DIR}\")
+    endif()
+    if(EXISTS \"${INSTALL_DIR}/lib\")
+        message(\"Copying libraries for Unity platform...\")
+        file(COPY \"${INSTALL_DIR}/lib/\" DESTINATION \"${UNITY_PLATFORM_DIR}\")
+    endif()
     
     # Copy asmdef
     message(\"Copying asmdef...\")
