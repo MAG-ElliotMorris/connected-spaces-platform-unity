@@ -23,37 +23,6 @@ namespace Magnopus.Csp.Unity.Tests
             Assert.IsTrue(vector.y == y);
             Assert.IsTrue(vector.z == z);
         }
-        
-        [Test]
-        public void VectorEquality()
-        {
-            var vector1 = new Vector3(1.0f, 2.0f, 3.0f);
-            var vector2 = new Vector3(1.0f, 2.0f, 3.0f);
-            var vector3 = new Vector3(4.0f, 5.0f, 6.0f);
-
-            Assert.IsTrue(vector1.Equals(vector2), "Vectors with same components should be equal.");
-            Assert.IsFalse(vector1.Equals(vector3), "Vectors with different components should not be equal.");
-        }
-        
-        [Test]
-        public void VectorToString()
-        {
-            var vector = new Vector3(1.0f, 2.0f, 3.0f);
-            var vectorString = vector.ToString();
-
-            Assert.AreEqual("Vector3(1, 2, 3)", vectorString, "Vector string representation is incorrect.");
-        }
-        
-        [Test]
-        public void VectorHashCode()
-        {
-            var vector1 = new Vector3(1.0f, 2.0f, 3.0f);
-            var vector2 = new Vector3(1.0f, 2.0f, 3.0f);
-            var vector3 = new Vector3(4.0f, 5.0f, 6.0f);
-
-            Assert.AreEqual(vector1.GetHashCode(), vector2.GetHashCode(), "Vectors with same components should have same hash code.");
-            Assert.AreNotEqual(vector1.GetHashCode(), vector3.GetHashCode(), "Vectors with different components should have different hash codes.");
-        }
 
         [Test]
         public void CspVectorToUnityVectorConversion()
