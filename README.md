@@ -24,6 +24,12 @@ To use the install output in unity, copy the files like so:
     - Android: `Assets/Plugins/Android/arm64-v8a`
     - MacOS: `Assets/Plugins/macOS`
 
+### Running tests into Unity test project
+- Enable the cmake variable ENABLE_UNITY_EXTENSIONS to let cmake install the generated binaries, libraries and code into the Unity test project.
+- Run cmake with the required configuration for your target platform (e.g. Android, iOS, Windows, MacOS).
+- Once the binaries, libraries and generated C# files are in place, make sure that he CspUnityTests.asmdef file has a dependency on ConnectedSpacesPlatform.Unity.Core.asmdef, so that the Unity tests can build and run successfully.
+- To run the tests in Unity, go to Window -> General -> Test Runner, and run the tests from the PlayMode tab.
+
 ### Dependencies
 - [CMake](https://cmake.org/): Version 3.28 or greater 
 - [Github CLI](https://cli.github.com/): You must have the github command line tools installed and activated in order to discover and download the latest CSP release.
