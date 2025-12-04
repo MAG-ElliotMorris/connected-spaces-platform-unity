@@ -32,10 +32,6 @@ message(STATUS "CSP_ASMDEF_PATH='${CSP_ASMDEF_PATH}'")
 # Base folder inside Unity project
 set(UNITY_CSP_ROOT "${CSP_LIB_UNITY_DIR}")
 
-message(STATUS "CMAKE_SYSTEM_NAME='${CMAKE_SYSTEM_NAME}'")
-message(STATUS "CMAKE_SYSTEM_PROCESSOR='${CMAKE_SYSTEM_PROCESSOR}'")
-message(STATUS "CMAKE_OSX_ARCHITECTURES='${CMAKE_OSX_ARCHITECTURES}'")
-
 if(APPLE)
     if(IOS)
         set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/iOS")
@@ -52,13 +48,11 @@ if(APPLE)
 
 elseif(ANDROID)
     # Android splits by ABI
-    if(CMAKE_ANDROID_ARCH_ABI STREQUAL "arm64-v8a")
-        set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/android/arm64-v8a")
-    elseif(CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")
-        set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/android/armeabi-v7a")
-    elseif(CMAKE_ANDROID_ARCH_ABI STREQUAL "x86_64")
-        set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/android/x86_64")
-    else()
+    set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/android/${CMAKE_ANDROID_ARCH_ABI}")
+        
+    # Validate supported ABIs
+    set(SUPPORTED_ABIS "arm64-v8a" "armeabi-v7a" "x86_64")
+    if(NOT CMAKE_ANDROID_ARCH_ABI IN_LIST SUPPORTED_ABIS)
         message(FATAL_ERROR "Unsupported Android ABI: ${CMAKE_ANDROID_ARCH_ABI}")
     endif()
 
@@ -66,7 +60,8 @@ elseif(WIN32)
     set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/windows")
 
 elseif(UNIX AND NOT APPLE)
-    set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/linux")
+    #set(UNITY_PLATFORM_DIR "${UNITY_CSP_ROOT}/linux")
+    message(FATAL_ERROR "Unsupported linux platform for Unity plugin install.")
 
 else()
     message(FATAL_ERROR "Unsupported platform for Unity plugin install.")

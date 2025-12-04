@@ -36,6 +36,7 @@ jobs:
         run: cmake --install build --config ${{ matrix.build_type }}
 
       - name: Test
+        # We cannot run XUnit tests with Unity extensions enabled because Unity classes would not be found causing a build failure.
         if: ${{ matrix.build_with_unity_extensions == false }}
         run: |
           dotnet test -c ${{ matrix.build_type }}
