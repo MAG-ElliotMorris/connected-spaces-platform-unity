@@ -74,6 +74,8 @@ add_custom_command(
 # ---------------- Build SWIG Output ----------------
 if (BUILD_SHARED_LIBS)
   add_library(${_WRAPPER_MODULE_NAME} SHARED "${_CPP_WRAPPER_OUT}")
+  # Pretty important, make sure we're importing symbols. Otherwise you'll get duplicate template instances and such. Bad times.
+  target_compile_definitions(${_WRAPPER_MODULE_NAME} PRIVATE USING_CSP_DLL)
 else()
   add_library(${_WRAPPER_MODULE_NAME} STATIC "${_CPP_WRAPPER_OUT}")
 endif()
@@ -86,6 +88,16 @@ set_target_properties(${_WRAPPER_MODULE_NAME} PROPERTIES
 
 # Add CSP Target to our output library, this produces a final API that can use CSP.
 target_link_libraries(${_WRAPPER_MODULE_NAME} PRIVATE _CSP)
+
+# Force /MD (Release runtime) to match CSP DLL runtime library settings
+# This is an unexpected choice from CSP's end. I hope this changes.
+# https://github.com/magnopus-opensource/connected-spaces-platform/blob/15f530fdd7a8b1782772338eee637e989057c815/premake5_helpers.lua#L124
+if(MSVC)
+  target_compile_options(${_WRAPPER_MODULE_NAME} PRIVATE
+    $<$<CONFIG:Debug>:/MD>
+    $<$<CONFIG:Release>:/MD>
+  )
+endif()
 
 # Ensure the wrapper can resolve @rpath by looking in its own folder at runtime.
 # This makes the dependent lookup land on the sibling dylib.
