@@ -29,16 +29,7 @@ set(_GEN_CS_DIR  "${CMAKE_BINARY_DIR}/generated/cs")
 set(_WRAPPER_MODULE_NAME "ConnectedSpacesPlatformDotNet")
 set(_CPP_WRAPPER_OUT "${_GEN_CPP_DIR}/${_WRAPPER_MODULE_NAME}_wrap.cxx")
 
-# Only set a default if the user has not provided one
-if(NOT DEFINED CMAKE_OSX_ARCHITECTURES OR CMAKE_OSX_ARCHITECTURES STREQUAL "")
-    message(WARNING
-        "CMAKE_OSX_ARCHITECTURES was not set.\n"
-        "Defaulting to 'arm64'. You may override this by setting it explicitly."
-    )
-    set(CMAKE_OSX_ARCHITECTURES "arm64")
-endif()
-
-
+# Note: for Unity on Mac, CMAKE_OSX_ARCHITECTURES should be set by the user to arm64.
 message(STATUS "CMAKE_OSX_ARCHITECTURES ='${CMAKE_OSX_ARCHITECTURES}'")
 message(STATUS "_GEN_CPP_DIR='${_GEN_CPP_DIR}'")
 message(STATUS "_GEN_CS_DIR='${_GEN_CS_DIR}'")

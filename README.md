@@ -16,6 +16,9 @@ Building on Android/iOS is a little more involved, you can see specific invocati
 This should produce you an `install` directory with `bin`, `lib` and `include`subdirectories (dependent on platform).
 
 ### Installing to Unity
+> [!IMPORTANT]
+> When building the libraries for usage in Unity on macOS, it is necessary to set the cmake variable CMAKE_OSX_ARCHITECTURES to "arm64", or the linking would fail.
+
 To use the install output in unity, copy the files like so:
 - The contents of the `include` directory -> `Assets/Csp/Runtime/`
 - Copy both binary files (`ConnectedSpacesPlatform` and `ConnectedSpacesPlatformDotNet`) to the platform specific folder under `Assets/Plugins`
@@ -51,4 +54,3 @@ To use the install output in unity, copy the files like so:
 | `SWIG_EXE`| Path | Path to the directory containing the swig executable that is used to generate .cpp and .cs code. This is normally downloaded automatically, and will be set by default to `BUILD_FOLDER/_deps/swig-il2cpp-directors/bin/swig`                                   |
 | `CSP_LIB_UNITY_DIR`| Path | Path to Unity CSP plugin directory where the CSP generated code and libs from SWIG will be copied to, if desired.                                                                                                                                               |
 | `CSP_ASMDEF_PATH`| Path | Path to ConnectedSpacesPlatform Unity .asmdef file, which will be used in Unity to handle the dependency over the CSP code.                                                                                                                                     |
-| `CMAKE_OSX_ARCHITECTURES`| String | Target architecture for macOS. This is a common footgun because of rosetta terminals or x86_64 cmake installs, you can use this to make it work in those contexts by setting "arm64".                                                                                                                                                       |
