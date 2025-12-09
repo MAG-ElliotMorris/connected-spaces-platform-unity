@@ -3,6 +3,9 @@
  * The module name here should match the standard base name of the .dll */
 %module(directors="1") ConnectedSpacesPlatform
 
+/* Enable namespaces flags to try and keep original namespaces hierarchy */
+%feature("nspace", 1);
+
 /* Undefine all the CSP annotation macros so we have a chance of parsing the api naturally */
 %include "swigutils/MacroZapper.i"
 
