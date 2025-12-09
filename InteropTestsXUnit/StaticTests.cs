@@ -1,6 +1,6 @@
 namespace InteropTestsXUnit;
 
-using Csp;
+using csp;
 
 public class StaticTests
 {

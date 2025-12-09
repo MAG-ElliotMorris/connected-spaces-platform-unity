@@ -1,6 +1,7 @@
 namespace InteropTestsXUnit;
 
-using Csp;
+using csp.common;
+using csp.systems;
 using Xunit.Sdk;
 
 public class ArrayTests
