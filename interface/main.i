@@ -46,6 +46,7 @@
 
 /* CSP/Systems*/
 %include "CSP/Systems/SystemBase.i"
+%include "CSP/Systems/WebService.i"
 
 /* CSP/Common/Systems/Spaces */
 %include "CSP/Systems/Spaces/UserRoles.i"
