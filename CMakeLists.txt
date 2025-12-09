@@ -19,8 +19,6 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "" FORCE)
 set(ROOT_I_DIR "${CMAKE_SOURCE_DIR}/interface" CACHE FILEPATH "Root include directory for all .i files.")
 set(_ROOT_I_FILE "${ROOT_I_DIR}/main.i")
 
-set(CSHARP_CSP_NAMESPACE "Csp" CACHE STRING "Namespace that generated Csharp should be placed under")
-
 # Generated code output
 set(_GEN_CPP_DIR "${CMAKE_BINARY_DIR}/generated/cpp")
 set(_GEN_CS_DIR  "${CMAKE_BINARY_DIR}/generated/cs")
