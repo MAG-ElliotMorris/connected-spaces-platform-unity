@@ -2,7 +2,7 @@
 // Copyright (c) Magnopus LLC. All Rights Reserved.
 // ---------------------------------------------
 
-using Vector3 = Csp.Vector3;
+using Vector3 = csp.common.Vector3;
 using NUnit.Framework;
 
 namespace Magnopus.Csp.Unity.Tests

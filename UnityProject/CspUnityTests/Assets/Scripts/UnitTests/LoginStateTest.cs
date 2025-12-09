@@ -4,8 +4,8 @@
 
 using NUnit.Framework;
 
-using LoginState = Csp.LoginState;
-using ELoginState = Csp.ELoginState;
+using LoginState = csp.common.LoginState;
+using ELoginState = csp.common.ELoginState;
 
 namespace Magnopus.Csp.Unity.Tests
 {
