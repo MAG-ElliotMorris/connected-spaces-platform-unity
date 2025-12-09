@@ -73,8 +73,8 @@ MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_N
 /* LogSystem Callbacks */
 MAKE_ACTION_CALLBACK(LogCallback,
                      LogSystem_LogCallbackHandlerCSharpAdapter,
-                     ARGLIST(LogLevel logLevel, string message),
-                     ARGLIST(LogLevel, string),
+                     ARGLIST(csp.common.LogLevel logLevel, string message),
+                     ARGLIST(csp.common.LogLevel, string),
                      ARGLIST(logLevel, message));
 MAKE_ACTION_CALLBACK(EventCallback,
                      LogSystem_EventCallbackHandlerCSharpAdapter,
