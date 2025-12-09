@@ -1,6 +1,7 @@
 namespace InteropTestsXUnit;
 
-using Csp;
+using csp;
+using csp.common;
 
 public class PropertiesTests
 
@@ -14,7 +15,7 @@ public class PropertiesTests
     {
         // EndpointURIs has value properties of service defintions,
         // providing us a decent place to test get/sets
-        Csp.EndpointURIs endpointUris = new EndpointURIs();
+        EndpointURIs endpointUris = new EndpointURIs();
 
         ServiceDefinition testMultiplayerServiceDefinition = new ServiceDefinition("http://fake-service.com", 1);
 
@@ -34,7 +35,7 @@ public class PropertiesTests
     [Fact]
     public void ListProperty()
     {
-        Csp.LoginState loginState = new Csp.LoginState();
+        LoginState loginState = new LoginState();
 
         // Crashes! (System.AccessViolationException: 'Attempted to read or write protected memory. This is often an indication that other memory is corrupt.')
         // Anything we can do about this to promote to a friendlier exception? Probably a general case error for setting non-nullable things to null.
@@ -49,8 +50,8 @@ public class PropertiesTests
         Assert.Equal(2, loginState.DefaultApplicationSettings.Count);
 
         //Set a brand new list.
-        Csp.ApplicationSettingsValueList newList = new Csp.ApplicationSettingsValueList();
-        ApplicationSettings newSettings = new Csp.ApplicationSettings();
+        ApplicationSettingsValueList newList = new ApplicationSettingsValueList();
+        ApplicationSettings newSettings = new ApplicationSettings();
         newSettings.ApplicationName = "TestName";
         newList.Add(newSettings);
         loginState.DefaultApplicationSettings = newList;
@@ -66,7 +67,7 @@ public class PropertiesTests
     public void MapProperty()
     {
         //SettingsCollection.Settings is an IDictionary<string, string>
-        Csp.SettingsCollection settings = new Csp.SettingsCollection();
+        SettingsCollection settings = new SettingsCollection();
 
         // Crashes! (System.AccessViolationException: 'Attempted to read or write protected memory. This is often an indication that other memory is corrupt.')
         // Anything we can do about this to promote to a friendlier exception? Probably a general case error for setting non-nullable things to null.
@@ -81,7 +82,7 @@ public class PropertiesTests
         Assert.Equal(2, settings.Settings.Count);
 
         //Set a brand new dicts.
-        Csp.StringDict newDict = new Csp.StringDict();
+        StringDict newDict = new StringDict();
         newDict.Add("keyNew", "valueNew");
         settings.Settings = newDict;
 

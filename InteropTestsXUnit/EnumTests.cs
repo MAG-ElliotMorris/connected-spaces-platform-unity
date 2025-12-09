@@ -1,6 +1,6 @@
 namespace InteropTestsXUnit;
 
-using Csp;
+using csp.web;
 
 public class EnumTests
 {
@@ -12,7 +12,7 @@ public class EnumTests
     [Fact]
     public void TestEnumUnderlyingType()
     {
-        Type enumType = Enum.GetUnderlyingType(typeof(Csp.EResponseCodes));
+        Type enumType = Enum.GetUnderlyingType(typeof(EResponseCodes));
         Assert.Equal("UInt16", enumType.Name);
     }
 
