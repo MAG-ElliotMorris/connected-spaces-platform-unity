@@ -20,6 +20,7 @@
 
 %include "swigutils/CallbackAdapters.i"
 %include "swigutils/AsyncAdapters.i"
+%include "swigutils/Operators.i"
 
 
 /* CSP non-exported symbols */
