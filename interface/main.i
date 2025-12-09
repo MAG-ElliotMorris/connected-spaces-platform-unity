@@ -24,6 +24,7 @@
 
 %include "swigutils/CallbackAdapters.i"
 %include "swigutils/AsyncAdapters.i"
+%include "swigutils/Operators.i"
 
 /* Declare optional typemaps */
 %include "swigutils/OptionalDeclarations.i"
