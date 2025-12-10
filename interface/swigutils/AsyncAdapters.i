@@ -43,6 +43,11 @@
 %define MAKE_ASYNC(FULLY_NAMESPACED_CLASST, METHODNAME, ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_ONLY_NAMES)
 MAKE_ACTION_CALLBACK(ACTION_CALLBACK_TYPENAME, CALLBACKT, ACTION_TYPELIST_WITH_NAMES, ACTION_TYPELIST_WITHOUT_NAMES, ACTION_TYPELIST_ONLY_NAMES)
 
+/* 
+ * Note: here we can add the ResultBase check to throw exceptions on failure. Ideally, the better place would be even 
+ * callbacks instead of the async code. This is just a reminder that we have this option to replace the ugly 
+ * "ThrowIfNeeded" mechanism we currently have in place in Unity. 
+ */
 %extend FULLY_NAMESPACED_CLASST {
 %proxycode %{
   public System.Threading.Tasks.Task<ACTION_TYPELIST_WITHOUT_NAMES> METHODNAME##Async(ACTION_TYPELIST_WITH_NAMES)
