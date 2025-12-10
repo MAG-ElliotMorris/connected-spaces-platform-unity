@@ -63,7 +63,6 @@ add_custom_command(
           -dllimport ${_WRAPPER_MODULE_NAME}
           -outdir "${_GEN_CS_DIR}"
           -o "${_CPP_WRAPPER_OUT}"
-          # -namespace ${CSHARP_CSP_NAMESPACE} # No longer needed since we enable the nspace feature flag in main.i
           ${SWIG_UNITY_FLAG} # Optionally enable unity extensions
           -v # Still could be verboser ... There's other options if you need them
           "${_ROOT_I_FILE}"
