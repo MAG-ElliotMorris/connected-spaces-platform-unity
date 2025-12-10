@@ -1,6 +1,6 @@
 {
     "name": "ConnectedSpacesPlatform.Unity.Core",
-    "rootNamespace": "csp",
+    "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
