@@ -28,7 +28,9 @@
 /* Declare optional typemaps */
 %include "swigutils/OptionalDeclarations.i"
 
-/* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second. */
+/* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second.
+   Anything here is a CSP mistake. They have types in their public interface that cannot be
+   used downstream because they reference internal types/implementations. */
 %ignore ToJson;
 
 /* Declare the api */
