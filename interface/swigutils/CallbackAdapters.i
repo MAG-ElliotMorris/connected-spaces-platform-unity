@@ -33,6 +33,8 @@ public:
 
 %{
 #include "CSP/Common/Systems/Log/LogSystem.h"
+#include "CSP/Systems/Quota/Quota.h"
+#include "CSP/Systems/Quota/QuotaSystem.h"
 %}
 
 /* LogSystem Callback */
@@ -40,7 +42,9 @@ MAKE_CALLBACK_ADAPTER(LogSystem_LogCallbackHandlerCSharpAdapter, ARGLIST(csp::co
 MAKE_CALLBACK_ADAPTER(LogSystem_EventCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
 MAKE_CALLBACK_ADAPTER(LogSystem_BeginMarkerCallbackHandlerCSharpAdapter, ARGLIST(const csp::common::String&), void)
 MAKE_CALLBACK_ADAPTER(LogSystem_EndMarkerCallbackHandlerCSharpAdapter, ARGLIST(void*), void)
- 
+
+/* QuotaSystem Callback */
+MAKE_CALLBACK_ADAPTER(QuotaSystem_FeatureLimitCallbackCSharpAdapter, ARGLIST(const csp::systems::FeatureLimitResult&), void)
 
 /*********** CALLBACK TYPEMAPS **********/
 
@@ -94,6 +98,12 @@ MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
                       ARGLIST(void* irrelevantArg /* Legacy wrapper gen implication, ignore */),
                       ARGLIST(irrelevantArg))
 
+/* QuotaSystem Callback Typemaps */
+MAKE_CALLBACK_TYPEMAP(csp::systems::FeatureLimitCallback,
+                        QuotaSystem_FeatureLimitCallbackCSharpAdapter,
+                        ARGLIST(const csp::systems::FeatureLimitResult& result),
+                        ARGLIST(result))
+
 /*********** CALLBACK NAMESPACE ADAPTATION **********/
 /* First, know that callbacks (std::functions) are going through the Fulton transform (https://swig.org/Doc1.3/SWIGPlus.html)
  * This transforms it into a SwigValueWrapper<return(args...)>, which does not need a default constructor.
@@ -108,4 +118,5 @@ MAKE_CALLBACK_TYPEMAP(csp::common::LogSystem::EndMarkerCallbackHandler,
  * Careful here, potential cause of collisions. */
 using csp::common::String;
 using csp::common::LogLevel;
+using csp::systems::FeatureLimitResult;
 %}
