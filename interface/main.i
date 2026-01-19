@@ -21,7 +21,7 @@
 %include "swigutils/typemaps/Csp_Array.i"
 
 
-/* Optionals need a bit of config, as we need to setup to project to allow C# nullability */
+/* Optionals need a bit of config, as we need to setup the project to allow C# nullability */
 #define SWIG_STD_OPTIONAL_USE_NULLABLE_REFERENCE_TYPES // Allow optional reference types (>C#8.0)
 %include "swigutils/typemaps/Csp_Optional.i"
 %include "swigutils/OptionalDeclarations.i"
