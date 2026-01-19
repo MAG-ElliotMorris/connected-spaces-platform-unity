@@ -7,7 +7,7 @@ using System.Diagnostics;
 public class ValueEquatableTest
 {
     /*
-     * Test that operators we map into specific functions do just that
+     * Test that Equals, ==, and Hash works as expected for types declared as value types
      */
     [Fact]
     public void IsEquatableType()
