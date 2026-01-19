@@ -20,6 +20,12 @@ public class OptionalTest : IDisposable
 
     public void Dispose()
     {
+        //We call initialize in some tests, we don't want this to affect others.
+        if (CSPFoundation.GetIsInitialised())
+        {
+            CSPFoundation.Shutdown();
+        }
+
         // Runs after each test, helps trigger some GC bugs earlier. Should probably put this in every test.
         GC.Collect();
         GC.WaitForPendingFinalizers();
