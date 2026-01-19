@@ -19,14 +19,18 @@
 %include "swigutils/typemaps/Csp_Map.i"
 %include "swigutils/typemaps/Csp_List.i"
 %include "swigutils/typemaps/Csp_Array.i"
+
+
+/* Optionals need a bit of config, as we need to setup to project to allow C# nullability */
+#define SWIG_STD_OPTIONAL_USE_NULLABLE_REFERENCE_TYPES // Allow optional reference types (>C#8.0)
 %include "swigutils/typemaps/Csp_Optional.i"
+%include "swigutils/OptionalDeclarations.i"
 
 
 %include "swigutils/CallbackAdapters.i"
 %include "swigutils/AsyncAdapters.i"
 
-/* Declare optional typemaps */
-%include "swigutils/OptionalDeclarations.i"
+
 
 /* CSP non-exported symbols. Special exclusions that are too hard to fix upstream right this second.
    Anything here is a CSP mistake. They have types in their public interface that cannot be

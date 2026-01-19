@@ -28,9 +28,6 @@
 //    %optional(MyStruct)
 //    This will generate code to handle csp::common::Optional<MyStruct>.
 //
-// The SWIG_STD_OPTIONAL_DEFAULT_TYPES macro is used to define a set of default types that are supported by SWIG when working with csp::common::Optional.
-// This macro ensures that common types such as int, double, and csp::common::String are automatically recognized and handled by SWIG when generating bindings.
-//
 // The SWIG_STD_OPTIONAL_USE_NULLABLE_REFERENCE_TYPES macro definition is used to enable the use of nullable reference types in the generated SWIG bindings.
 // When this macro is defined, SWIG will generate code that treats csp::common::Optional types as C# nullable reference types, allowing the compiler to run null-state analysis (C# >= 8 required).
 // When this macro is defined, any module using this file should be declared with the #nullable enable directive.
@@ -298,21 +295,3 @@
   }
 
 %enddef
-
-#if defined(SWIG_STD_OPTIONAL_DEFAULT_TYPES)
-  %optional_arithmetic(bool, OptBool)
-  %optional_arithmetic(std::int8_t, OptSignedByte)
-  %optional_arithmetic(std::int16_t, OptSignedShort)
-  %optional_arithmetic(std::int32_t, OptSignedInt)
-  %optional_arithmetic(std::uint8_t, OptUnsignedByte)
-  %optional_arithmetic(std::uint16_t, OptUnsignedShort)
-  %optional_arithmetic(std::uint32_t, OptUnsignedInt)
-
-  %optional_arithmetic(std::int64_t, OptSignedLong)
-  %optional_arithmetic(std::uint64_t, OptUnsignedLong)
-
-  %optional_arithmetic(float, OptFloat)
-  %optional_arithmetic(double, OptDouble)
-
-  %optional_string()
-#endif

@@ -21,10 +21,23 @@
  */
 
 
-#define SWIG_STD_OPTIONAL_DEFAULT_TYPES // Get the default arithmetical optionals, ints, doubles, etc.
-#define SWIG_STD_OPTIONAL_USE_NULLABLE_REFERENCE_TYPES // Allow optional reference types (>C#8.0)
+// The commented out stuff should be exported by CSP by default,
+// but they are not quite yet. Uncomment when they are.
 
-%include "swigutils/typemaps/Csp_Optional.i"
+//%optional_arithmetic(bool, OptBool)
+//%optional_arithmetic(std::int8_t, OptSignedByte)
+//%optional_arithmetic(std::int16_t, OptSignedShort)
+//%optional_arithmetic(std::int32_t, OptSignedInt)
+//%optional_arithmetic(std::uint8_t, OptUnsignedByte)
+//%optional_arithmetic(std::uint16_t, OptUnsignedShort)
+//%optional_arithmetic(std::uint32_t, OptUnsignedInt)
+
+//%optional_arithmetic(std::int64_t, OptSignedLong)
+//%optional_arithmetic(std::uint64_t, OptUnsignedLong)
+
+//%optional_arithmetic(float, OptFloat)
+//%optional_arithmetic(double, OptDouble)
+
+%optional_string()
 
 %optional(csp::common::Array<csp::FeatureFlag>)
-%optional(csp::common::HotspotSequenceChangedNetworkEventData)

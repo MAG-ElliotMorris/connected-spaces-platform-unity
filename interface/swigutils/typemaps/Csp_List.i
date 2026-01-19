@@ -299,7 +299,7 @@
       bool Remove(CTYPE const& value) {
         csp::common::List< CTYPE >::iterator it = std::find($self->begin(), $self->end(), value);
         if (it != $self->end()) {
-          $self->erase(it);
+          $self->RemoveItem(value); //Would be better if RemoveItem returned directly
           return true;
         }
         return false;
@@ -324,9 +324,9 @@ namespace csp::common {
 %}
 
 
- %csmethodmodifiers csp::common::List::getitemcopy "private"
- %csmethodmodifiers csp::common::List::getitem "private"
- %csmethodmodifiers csp::common::List::setitem "private"
+%csmethodmodifiers csp::common::List::getitemcopy "private"
+%csmethodmodifiers csp::common::List::getitem "private"
+%csmethodmodifiers csp::common::List::setitem "private"
 %csmethodmodifiers csp::common::List::Size "private" //handled by Count
 
 
