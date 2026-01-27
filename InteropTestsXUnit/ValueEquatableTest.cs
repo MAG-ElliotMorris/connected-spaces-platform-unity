@@ -89,6 +89,16 @@ public class ValueEquatableTest
     }
 
     [Fact]
+    public void NotEqualHashCodes()
+    {
+        var Vec1 = new Vector2(1.0f, 2.0f);
+        var Vec2 = new Vector2(1.0f, 3.0f);
+
+        Assert.True(Vec1 != Vec2);
+        Assert.NotEqual(Vec1.GetHashCode(), Vec2.GetHashCode());
+    }
+
+    [Fact]
     public void DeferToTypedEquals()
     {
         //Boxed comparison should defer to the typed one and do value comparison
