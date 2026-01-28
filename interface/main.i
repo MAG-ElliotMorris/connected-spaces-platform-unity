@@ -1,4 +1,4 @@
-/* Important to enable directors for anything that has callbacks, as that's the special
+/* Important to enable directors for anything that has callbacks, as that's the special 
  * SWIG magic that lets client code be called from inside C++.
  * The module name here should match the standard base name of the .dll */
 %module(directors="1") ConnectedSpacesPlatform
@@ -34,6 +34,10 @@
    Anything here is a CSP mistake. They have types in their public interface that cannot be
    used downstream because they reference internal types/implementations. */
 %ignore ToJson;
+%ignore TierNameEnumToString;
+%ignore TierFeatureEnumToString;
+%ignore StringToTierNameEnum;
+%ignore StringToTierFeatureEnum;
 
 /* Declare the api */
 
@@ -54,13 +58,16 @@
 %include "CSP/Common/Systems/Log/LogSystem.i"
 %include "CSP/Common/Systems/Log/LogLevels.i"
 
+/* CSP/Systems*/
+%include "CSP/Systems/WebService.i"
+%include "CSP/Systems/SystemBase.i"
 
 /* CSP/Common/Systems/Spaces */
 %include "CSP/Systems/Spaces/UserRoles.i"
 
-/* CSP/Systems*/
-%include "CSP/Systems/SystemBase.i"
-%include "CSP/Systems/WebService.i"
+/* CSP/Common/Systems/Quota */
+%include "CSP/Systems/Quota/Quota.i"
+%include "CSP/Systems/Quota/QuotaSystem.i"
 
 /* CSP/Systems/ECommerce */
 %include "CSP/Systems/ECommerce/ECommerce.i"
