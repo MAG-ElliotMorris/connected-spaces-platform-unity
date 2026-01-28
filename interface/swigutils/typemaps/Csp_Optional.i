@@ -158,6 +158,19 @@
 // all features attached to the type before dealing with it.
 %naturalvar csp::common::Optional< TYPE >;
 
+// Ignore constructors and operators that expose raw TYPE* pointers
+// SWIG converts a lot of C++ specific constructs to T*.
+// None of these are useful from C#, and cause noisy (albeit harmless)
+// SWIGTYPE_p_* wrapper files to be generated.
+// This is only a thing for arithmetic types because other types will
+// have typemaps that handle this properly ... I think.
+%ignore csp::common::Optional< TYPE >::Optional(TYPE *);
+%ignore csp::common::Optional< TYPE >::Optional(TYPE *, std::function<void(TYPE *)>);
+%ignore csp::common::Optional< TYPE >::Optional(TYPE &&);
+%ignore csp::common::Optional< TYPE >::Optional(std::nullptr_t);
+%ignore csp::common::Optional< TYPE >::operator->;
+%ignore csp::common::Optional< TYPE >::operator*;
+
 // Even although we're not going to really use them, we must still name the
 // exported template instantiation, otherwise SWIG would give it an
 // auto-generated name starting with SWIGTYPE which would be even uglier.
@@ -170,29 +183,29 @@
 // This typemap is used to convert C# nullable type to the handler passed to the
 // intermediate native wrapper function.
 %typemap(csin,
-         pre="    NAME opt_$csinput = $csinput.HasValue ? new NAME($csinput.Value) : new NAME();"
+         pre="    $csclassname opt_$csinput = $csinput.HasValue ? new $csclassname($csinput.Value) : new $csclassname();"
          ) csp::common::Optional< TYPE >, csp::common::Optional< TYPE > const& "$csclassname.getCPtr(opt_$csinput)"
 
 // This is used for functions returning optional values.
 %typemap(csout, excode=SWIGEXCODE) csp::common::Optional< TYPE >, csp::common::Optional< TYPE > const & {
-    NAME ret = new NAME($imcall, $owner);$excode
+    $csclassname ret = new $csclassname($imcall, $owner);$excode
     return ret.HasValue() ? ret.__ref__() : ($typemap(cstype, TYPE)?)null;
   }
 
 // This code is used for the optional-valued properties in C#.
 %typemap(csvarin, excode=SWIGEXCODE2) csp::common::Optional< TYPE >, csp::common::Optional< TYPE > const & %{
     set {
-      NAME opt_value = value.HasValue ? new NAME(value.Value) : new NAME();
+      $csclassname opt_value = value.HasValue ? new $csclassname(value.Value) : new $csclassname();
       $imcall;$excode
     }%}
 %typemap(csvarout, excode=SWIGEXCODE2) csp::common::Optional< TYPE >, csp::common::Optional< TYPE > const & %{
     get {
-      NAME ret = new NAME($imcall, $owner);$excode
+      $csclassname ret = new $csclassname($imcall, $owner);$excode
       return ret.HasValue() ? ret.__ref__() : ($typemap(cstype, TYPE)?)null;
     }%}
 
 %typemap(csdirectorin,
-         pre="    NAME opt_$iminput = ($iminput != global::System.IntPtr.Zero) ? new NAME($iminput, true) : new NAME();"
+         pre="    $csclassname opt_$iminput = ($iminput != global::System.IntPtr.Zero) ? new $csclassname($iminput, true) : new $csclassname();"
          ) csp::common::Optional< TYPE >, csp::common::Optional< TYPE > const & "opt_$iminput.HasValue() ? opt_$iminput.__ref__() : ($typemap(cstype, TYPE)?)null"
 
 %enddef
